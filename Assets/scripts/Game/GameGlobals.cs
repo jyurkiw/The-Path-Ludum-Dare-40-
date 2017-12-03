@@ -11,7 +11,7 @@ public static class GameGlobals {
     public const float TILE_STEP = 1F;
     public const float TILE_Y_OFFSET = 0f;
 
-    public const float TILE_SELECT_Y_OFFSET = 0.1f;
+    public const float TILE_SELECT_Y_OFFSET = 0.01f;
     public static readonly Vector3 TILE_SELECT_INIT_POS = new Vector3(0, 1000, 0);
 
     public const float TOWER_POSITION_OFFSET = 2.5f;

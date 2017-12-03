@@ -7,7 +7,8 @@ using UnityEngine.Assertions;
 
 public class TerrainChunk : MonoBehaviour {
     private GameObject[,] tiles;
-    public GameObject[] _tilePrefabs;
+    public GameObject _tilePrefab;
+    public Material[] _tileMaterials;
 
 	// Use this for initialization
 	void Start () {
@@ -34,8 +35,13 @@ public class TerrainChunk : MonoBehaviour {
                     tileIndex = 10 + (int)(idxChar - 'A');
                 }
 
-                Assert.IsTrue(tileIndex < _tilePrefabs.Length, "You forgot to add a prefab to the chunk prefab tile list");
-                tiles[row, col] = Instantiate(_tilePrefabs[tileIndex], GameUtils.GetTilePosAt(col, row), Quaternion.identity, transform);
+                Assert.IsTrue(tileIndex <= _tileMaterials.Length, "You forgot to add a prefab to the tile material list. Found " + tileIndex + " with max of " + (_tileMaterials.Length - 1));
+                tiles[row, col] = Instantiate(_tilePrefab, GameUtils.GetTilePosAt(col, row), Quaternion.identity, transform);
+
+                if (idxChar > 0)
+                {
+                    tiles[row, col].GetComponent<Renderer>().material = _tileMaterials[tileIndex];
+                }
             }
         }
     }
