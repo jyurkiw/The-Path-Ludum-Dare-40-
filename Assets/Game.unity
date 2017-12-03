@@ -179,7 +179,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 507551360}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -265, y: 197.00008, z: -0.000042603}
+  m_LocalPosition: {x: -260, y: 197.00008, z: -0.000042603}
   m_LocalScale: {x: 1.0006635, y: 1.0006633, z: 0.9997699}
   m_Children:
   - {fileID: 885190988}
@@ -188,7 +188,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -265, y: 197.00008}
+  m_AnchoredPosition: {x: -260, y: 197.00008}
   m_SizeDelta: {x: 164, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &507551362
@@ -665,6 +665,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1352999110}
+  - component: {fileID: 1352999111}
   m_Layer: 0
   m_Name: AMasterLogicNode
   m_TagString: Untagged
@@ -685,6 +686,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1352999111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1352999109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0298e293386e4184f9a7425015c3722f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameState: 3
 --- !u!1 &1413826145
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,7 +785,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1498303788}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -435, y: 197, z: 0}
+  m_LocalPosition: {x: -430, y: 197, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 807712105}
@@ -781,7 +794,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -435, y: 197}
+  m_AnchoredPosition: {x: -430, y: 197}
   m_SizeDelta: {x: 164, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1498303790
@@ -822,7 +835,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1498303791}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2128371035}
+        m_MethodName: EnterBuildMode_Tower
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: tower_blue
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1498303791
@@ -977,7 +1001,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1855547134}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -95, y: 197.00008, z: -0.000042603}
+  m_LocalPosition: {x: -90, y: 197.00008, z: -0.000042603}
   m_LocalScale: {x: 1.0006635, y: 1.0006633, z: 0.9997699}
   m_Children:
   - {fileID: 1306288851}
@@ -986,7 +1010,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -95, y: 197.00008}
+  m_AnchoredPosition: {x: -90, y: 197.00008}
   m_SizeDelta: {x: 164, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1855547136
@@ -1073,8 +1097,9 @@ GameObject:
   - component: {fileID: 2128371032}
   - component: {fileID: 2128371034}
   - component: {fileID: 2128371033}
+  - component: {fileID: 2128371035}
   m_Layer: 0
-  m_Name: Panel
+  m_Name: BuildPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1134,3 +1159,16 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2128371031}
+--- !u!114 &2128371035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2128371031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68ab2852a862cd34699286f18450954e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tileSelectorPrefab: {fileID: 1541476140792888, guid: 3d1a44cf1b92fc44f815cf3510f2a250,
+    type: 2}
