@@ -34,15 +34,6 @@ public class BuilderController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        // Build the tower and exit build mode
-        if (Input.GetMouseButtonUp(0) && !_eventSystem.IsPointerOverGameObject())
-        {
-            _currentGameState._gameState = GameState.GAME_STATE.VIEW;
-            Vector3 structurePos = new Vector3(_tileSelector.transform.position.x, _structurePrefabs[_buildType].transform.position.y, _tileSelector.transform.position.z);
-            BuildStructure(structurePos, _buildType);
-            KillSelectOverlay();
-        }
-
         if (_currentGameState._gameState == GameState.GAME_STATE.BUILD)
         {
             Ray clickCastDirection = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -56,6 +47,14 @@ public class BuilderController : MonoBehaviour {
                     InitSelectOverlay(_tileSelectOverlay, _buildType, overlayLoc);
                 }
                 _tileSelector.transform.SetPositionAndRotation(overlayLoc, Quaternion.identity);
+            }
+
+            // Build the tower and exit build mode
+            if (Input.GetMouseButtonUp(0) && !_eventSystem.IsPointerOverGameObject())
+            {
+                _currentGameState._gameState = GameState.GAME_STATE.VIEW;
+                BuildStructure(hit.transform, _buildType, hit.transform.parent.parent);
+                KillSelectOverlay();
             }
         }
 	}
@@ -102,8 +101,15 @@ public class BuilderController : MonoBehaviour {
     /// <summary>
     /// Place the current build structure in the world.
     /// </summary>
-    public void BuildStructure(Vector3 buildPosition, string structureName)
+    public void BuildStructure(Transform buildTile, string structureName, Transform parentChunk)
     {
-        GameObject newStructure = Instantiate<GameObject>(_structurePrefabs[structureName], buildPosition, _structurePrefabs[structureName].transform.rotation);
+        Vector3 quadOffset = new Vector3(
+            buildTile.localPosition.x * buildTile.parent.localScale.x,
+            _structurePrefabs[structureName].transform.position.y,
+            buildTile.localPosition.z * buildTile.parent.localScale.z
+            );
+        Vector3 buildPosition = buildTile.parent.localPosition + quadOffset;
+
+        GameObject newStructure = Instantiate<GameObject>(_structurePrefabs[structureName], buildPosition, _structurePrefabs[structureName].transform.rotation, parentChunk);
     }
 }

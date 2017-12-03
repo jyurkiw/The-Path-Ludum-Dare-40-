@@ -13,6 +13,12 @@ public class WellInitializer : MonoBehaviour {
         ChunkManager chunkManager = GetComponentInParent<ChunkManager>();
         BuilderController buildController = GetComponentInParent<BuilderController>();
 
-        buildController.BuildStructure(Vector3.zero, GameGlobals.WELL_PREFAB_NAME);
+        // Get list of valid start points, and pick one at random
+        TerrainChunk chunk = chunkManager._chunks[Vector2Int.zero];
+        List<Vector2Int> startPoints = chunk.GetValidStartPoints();
+        Vector2Int wellPosition = startPoints[Mathf.RoundToInt(Mathf.Clamp(Random.value * startPoints.Count, 0, startPoints.Count - 1))];
+        GameObject startingTile = chunk.GetTileAt(wellPosition);
+        
+        buildController.BuildStructure(startingTile.transform, GameGlobals.WELL_PREFAB_NAME, chunk.transform);
 	}
 }

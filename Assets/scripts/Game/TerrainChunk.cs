@@ -81,4 +81,9 @@ public class TerrainChunk : MonoBehaviour {
 
         return startPoints;
     }
+
+    public GameObject GetTileAt(Vector2Int position)
+    {
+        return tiles[position.y, position.x];
+    }
 }

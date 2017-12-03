@@ -19,8 +19,6 @@ public class ChunkManager : MonoBehaviour {
         // Load the chunk prefab
         _chunkPrefab = Resources.Load<GameObject>(GameGlobals.CHUNK_PREFAB_NAME);
 
-        Debug.Log(_chunkPrefab);
-
         // Init the first chunk
         _chunks.Add(Vector2Int.zero, Instantiate<GameObject>(_chunkPrefab, Vector3.zero, Quaternion.identity).GetComponent<TerrainChunk>());
         _chunks[Vector2Int.zero].InitChunk(Resources.Load<TextAsset>("chunks").text);
