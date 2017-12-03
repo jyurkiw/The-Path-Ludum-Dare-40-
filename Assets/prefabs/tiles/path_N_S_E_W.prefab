@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 23009133561231666}
   - component: {fileID: 114944987507773034}
   m_Layer: 0
-  m_Name: path_N_E_S_W
+  m_Name: path_N_S_E_W
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
