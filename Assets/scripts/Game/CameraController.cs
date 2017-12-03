@@ -29,6 +29,7 @@ public class CameraController : MonoBehaviour {
     private void Update () {
         Vector3 cameraMovementThisUpdate = Vector3.zero;
 
+        // WASD Movement
 		if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
         {
             cameraMovementThisUpdate = cameraMovementThisUpdate + new Vector3(0, 0, GameGlobals.CAMERA_MOVE_SPEED);
@@ -49,6 +50,7 @@ public class CameraController : MonoBehaviour {
             cameraMovementThisUpdate = cameraMovementThisUpdate + new Vector3(GameGlobals.CAMERA_MOVE_SPEED, 0, 0);
         }
 
+        // Mouse Movement
         if (Input.mousePosition.x <= screenMLEdge)
         {
             cameraMovementThisUpdate = cameraMovementThisUpdate + new Vector3(-Mathf.Lerp(GameGlobals.CAMERA_MOUSE_MIN_MOVE_SPEED, GameGlobals.CAMERA_MOVE_SPEED, Input.mousePosition.x), 0, 0);
