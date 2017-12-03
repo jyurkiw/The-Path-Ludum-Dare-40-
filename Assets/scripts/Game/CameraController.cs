@@ -8,6 +8,7 @@ using UnityEngine;
 /// moving along the Z axis doesn't raise the camera up into the air.
 /// </summary>
 public class CameraController : MonoBehaviour {
+    public UnityEngine.EventSystems.EventSystem _eventSystem;
     private int widthActiveDistance, heightActiveDistance, screenMLEdge, screenMREdge, screenMTEdge, screenMBEdge;
 
     private void Start()
@@ -51,24 +52,27 @@ public class CameraController : MonoBehaviour {
         }
 
         // Mouse Movement
-        if (Input.mousePosition.x <= screenMLEdge)
+        if (!_eventSystem.IsPointerOverGameObject())
         {
-            cameraMovementThisUpdate = cameraMovementThisUpdate + new Vector3(-Mathf.Lerp(GameGlobals.CAMERA_MOUSE_MIN_MOVE_SPEED, GameGlobals.CAMERA_MOVE_SPEED, Input.mousePosition.x), 0, 0);
-        }
+            if (Input.mousePosition.x <= screenMLEdge)
+            {
+                cameraMovementThisUpdate = cameraMovementThisUpdate + new Vector3(-Mathf.Lerp(GameGlobals.CAMERA_MOUSE_MIN_MOVE_SPEED, GameGlobals.CAMERA_MOVE_SPEED, Input.mousePosition.x), 0, 0);
+            }
 
-        if (Input.mousePosition.x >= screenMREdge)
-        {
-            cameraMovementThisUpdate = cameraMovementThisUpdate + new Vector3(Mathf.Lerp(GameGlobals.CAMERA_MOUSE_MIN_MOVE_SPEED, GameGlobals.CAMERA_MOVE_SPEED, Screen.width - Input.mousePosition.x), 0, 0);
-        }
+            if (Input.mousePosition.x >= screenMREdge)
+            {
+                cameraMovementThisUpdate = cameraMovementThisUpdate + new Vector3(Mathf.Lerp(GameGlobals.CAMERA_MOUSE_MIN_MOVE_SPEED, GameGlobals.CAMERA_MOVE_SPEED, Screen.width - Input.mousePosition.x), 0, 0);
+            }
 
-        if (Input.mousePosition.y <= screenMBEdge)
-        {
-            cameraMovementThisUpdate = cameraMovementThisUpdate + new Vector3(0, 0, -Mathf.Lerp(GameGlobals.CAMERA_MOUSE_MIN_MOVE_SPEED, GameGlobals.CAMERA_MOVE_SPEED, Input.mousePosition.y));
-        }
+            if (Input.mousePosition.y <= screenMBEdge)
+            {
+                cameraMovementThisUpdate = cameraMovementThisUpdate + new Vector3(0, 0, -Mathf.Lerp(GameGlobals.CAMERA_MOUSE_MIN_MOVE_SPEED, GameGlobals.CAMERA_MOVE_SPEED, Input.mousePosition.y));
+            }
 
-        if (Input.mousePosition.y >= screenMTEdge)
-        {
-            cameraMovementThisUpdate = cameraMovementThisUpdate + new Vector3(0, 0, Mathf.Lerp(GameGlobals.CAMERA_MOUSE_MIN_MOVE_SPEED, GameGlobals.CAMERA_MOVE_SPEED, Screen.height - Input.mousePosition.y));
+            if (Input.mousePosition.y >= screenMTEdge)
+            {
+                cameraMovementThisUpdate = cameraMovementThisUpdate + new Vector3(0, 0, Mathf.Lerp(GameGlobals.CAMERA_MOUSE_MIN_MOVE_SPEED, GameGlobals.CAMERA_MOVE_SPEED, Screen.height - Input.mousePosition.y));
+            }
         }
 
         transform.Translate(cameraMovementThisUpdate);
