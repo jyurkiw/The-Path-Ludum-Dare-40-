@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// Control the main camera.
@@ -8,7 +9,7 @@ using UnityEngine;
 /// moving along the Z axis doesn't raise the camera up into the air.
 /// </summary>
 public class CameraController : MonoBehaviour {
-    public UnityEngine.EventSystems.EventSystem _eventSystem;
+    private EventSystem _eventSystem;
     private int widthActiveDistance, heightActiveDistance, screenMLEdge, screenMREdge, screenMTEdge, screenMBEdge;
 
     private void Start()
@@ -20,6 +21,8 @@ public class CameraController : MonoBehaviour {
         screenMREdge = Screen.width - widthActiveDistance;
         screenMTEdge = Screen.height - heightActiveDistance;
         screenMBEdge = heightActiveDistance;
+
+        _eventSystem = GameObject.FindObjectOfType<EventSystem>();
     }
 
     /// <summary>
