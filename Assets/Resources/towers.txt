@@ -1,3 +1,4 @@
-prefabs/towers/tower_red tower_red
-prefabs/towers/tower_blue tower_blue
-prefabs/towers/tower_orange tower_orange
+prefabs/player/tower_red tower_red
+prefabs/player/tower_blue tower_blue
+prefabs/player/tower_orange tower_orange
+prefabs/player/well player_well

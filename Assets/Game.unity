@@ -151,7 +151,7 @@ Transform:
   m_Children:
   - {fileID: 1028262667}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &507551360
 GameObject:
@@ -229,7 +229,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2128371035}
+      - m_Target: {fileID: 1352999114}
         m_MethodName: EnterBuildMode_Tower
         m_Mode: 5
         m_Arguments:
@@ -275,48 +275,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 507551360}
---- !u!1001 &589854386
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &627973370
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,7 +338,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &807712104
 GameObject:
@@ -676,6 +634,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1352999110}
   - component: {fileID: 1352999111}
+  - component: {fileID: 1352999113}
+  - component: {fileID: 1352999112}
+  - component: {fileID: 1352999114}
   m_Layer: 0
   m_Name: AMasterLogicNode
   m_TagString: Untagged
@@ -708,6 +669,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameState: 3
+--- !u!114 &1352999112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1352999109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a83230a8c1a39740a04f76abcab42fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1352999113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1352999109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd76eb4b2b276e14db2e244813715298, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1352999114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1352999109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68ab2852a862cd34699286f18450954e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tileSelectorPrefab: {fileID: 1541476140792888, guid: 3d1a44cf1b92fc44f815cf3510f2a250,
+    type: 2}
+  _towerQuadSelectorPrefab: {fileID: 1604345266573264, guid: 2eb7cfe0b66cd104fa868994062e9b42,
+    type: 2}
 --- !u!1 &1413826145
 GameObject:
   m_ObjectHideFlags: 0
@@ -768,7 +766,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1498303788
 GameObject:
@@ -846,7 +844,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2128371035}
+      - m_Target: {fileID: 1352999114}
         m_MethodName: EnterBuildMode_Tower
         m_Mode: 5
         m_Arguments:
@@ -1062,7 +1060,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2128371035}
+      - m_Target: {fileID: 1352999114}
         m_MethodName: EnterBuildMode_Tower
         m_Mode: 5
         m_Arguments:
@@ -1118,7 +1116,6 @@ GameObject:
   - component: {fileID: 2128371032}
   - component: {fileID: 2128371034}
   - component: {fileID: 2128371033}
-  - component: {fileID: 2128371035}
   m_Layer: 0
   m_Name: BuildPanel
   m_TagString: Untagged
@@ -1180,18 +1177,3 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2128371031}
---- !u!114 &2128371035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2128371031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68ab2852a862cd34699286f18450954e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tileSelectorPrefab: {fileID: 1541476140792888, guid: 3d1a44cf1b92fc44f815cf3510f2a250,
-    type: 2}
-  _towerQuadSelectorPrefab: {fileID: 1604345266573264, guid: 2eb7cfe0b66cd104fa868994062e9b42,
-    type: 2}
