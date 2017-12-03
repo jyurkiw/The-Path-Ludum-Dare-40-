@@ -6,7 +6,8 @@ public static class GameGlobals {
     public const int BUILD_TOWER_LAYER_MASK = 8;
 
     public const float CAMERA_MOVE_SPEED = 0.25f;
-    public const float CAMERA_MOUSE_MIN_MOVE_SPEED = 0.05F;
+    public const float CAMERA_MOUSE_MIN_MOVE_SPEED = 0.05f;
+    public const float CAMERA_INIT_POSITION_Z_OFFSET = -2f;
 
     public const string CHUNK_PREFAB_NAME = "prefabs/chunk";
     public const int CHUNK_SIZE = 32;

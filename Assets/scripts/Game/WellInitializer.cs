@@ -12,6 +12,7 @@ public class WellInitializer : MonoBehaviour {
 	void Start () {
         ChunkManager chunkManager = GetComponentInParent<ChunkManager>();
         BuilderController buildController = GetComponentInParent<BuilderController>();
+        CameraController gimble = FindObjectOfType<CameraController>();
 
         // Get list of valid start points, and pick one at random
         TerrainChunk chunk = chunkManager._chunks[Vector2Int.zero];
@@ -19,6 +20,10 @@ public class WellInitializer : MonoBehaviour {
         Vector2Int wellPosition = startPoints[Mathf.RoundToInt(Mathf.Clamp(Random.value * startPoints.Count, 0, startPoints.Count - 1))];
         GameObject startingTile = chunk.GetTileAt(wellPosition);
         
-        buildController.BuildStructure(startingTile.transform, GameGlobals.WELL_PREFAB_NAME, chunk.transform);
+        GameObject well = buildController.BuildStructure(startingTile.transform, GameGlobals.WELL_PREFAB_NAME, chunk.transform);
+
+        // Move the camera to look at the well
+        Vector3 gimblePosition = new Vector3(well.transform.position.x, gimble.transform.position.y, well.transform.position.z + GameGlobals.CAMERA_INIT_POSITION_Z_OFFSET);
+        gimble.transform.SetPositionAndRotation(gimblePosition, Quaternion.identity);
 	}
 }
