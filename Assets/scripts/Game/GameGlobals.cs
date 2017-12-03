@@ -4,6 +4,8 @@ using UnityEngine;
 
 public static class GameGlobals {
     public const float CAMERA_MOVE_SPEED = 0.25f;
+    public const float CAMERA_MOUSE_MIN_MOVE_SPEED = 0.05F;
+
     public const int CHUNK_SIZE = 32;
 
     public const float TILE_STEP = 1F;
