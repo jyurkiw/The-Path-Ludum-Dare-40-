@@ -18,7 +18,7 @@ public class BuilderController : MonoBehaviour {
     private GameObject _tileSelectOverlay;
     private GameObject _tileSelector;
 
-    private Dictionary<string, GameObject> _towerPrefabs;
+    private Dictionary<string, GameObject> _structurePrefabs;
 
 	/// <summary>
     /// Set the BuilderController's link to the GameState component on the AMasterLogicNode. There should only be one GameState object per scene.
@@ -29,7 +29,7 @@ public class BuilderController : MonoBehaviour {
         _currentGameState = GameObject.FindObjectOfType<GameState>();
         _eventSystem = GameObject.FindObjectOfType<EventSystem>();
 
-        _towerPrefabs = GameUtils.LoadResourcePrefabs(GameGlobals.TOWER_PREFAB_FILE);
+        _structurePrefabs = GameUtils.LoadResourcePrefabs(GameGlobals.TOWER_PREFAB_FILE);
 	}
 	
 	// Update is called once per frame
@@ -38,7 +38,8 @@ public class BuilderController : MonoBehaviour {
         if (Input.GetMouseButtonUp(0) && !_eventSystem.IsPointerOverGameObject())
         {
             _currentGameState._gameState = GameState.GAME_STATE.VIEW;
-            BuildStructure();
+            Vector3 structurePos = new Vector3(_tileSelector.transform.position.x, _structurePrefabs[_buildType].transform.position.y, _tileSelector.transform.position.z);
+            BuildStructure(structurePos, _buildType);
             KillSelectOverlay();
         }
 
@@ -78,12 +79,11 @@ public class BuilderController : MonoBehaviour {
     /// <param name="overlayPrefab">The overlay prefab to instantiate.</param>
     private void InitSelectOverlay(GameObject overlayPrefab, string buildingMarkerKey, Vector3 position)
     {
-        Debug.Log(position);
         _tileSelector = new GameObject(GameGlobals.TILE_SELECT_INIT_NAME);
         _tileSelector.transform.SetPositionAndRotation(position, Quaternion.identity);
 
         GameObject tileOverlay = Instantiate<GameObject>(overlayPrefab, _tileSelector.transform, false);
-        GameObject buildOverlay = Instantiate<GameObject>(_towerPrefabs[buildingMarkerKey], _tileSelector.transform, false);
+        GameObject buildOverlay = Instantiate<GameObject>(_structurePrefabs[buildingMarkerKey], _tileSelector.transform, false);
 
         Renderer buildRenderer = buildOverlay.GetComponent<Renderer>();
         Color buildColor = buildRenderer.material.color;
@@ -102,9 +102,8 @@ public class BuilderController : MonoBehaviour {
     /// <summary>
     /// Place the current build structure in the world.
     /// </summary>
-    private void BuildStructure()
+    public void BuildStructure(Vector3 buildPosition, string structureName)
     {
-        Vector3 structurePos = new Vector3(_tileSelector.transform.position.x, _towerPrefabs[_buildType].transform.position.y, _tileSelector.transform.position.z);
-        GameObject newStructure = Instantiate<GameObject>(_towerPrefabs[_buildType], structurePos, _towerPrefabs[_buildType].transform.rotation);
+        GameObject newStructure = Instantiate<GameObject>(_structurePrefabs[structureName], buildPosition, _structurePrefabs[structureName].transform.rotation);
     }
 }
