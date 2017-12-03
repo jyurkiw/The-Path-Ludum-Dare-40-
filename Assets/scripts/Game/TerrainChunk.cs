@@ -21,7 +21,6 @@ public class TerrainChunk : MonoBehaviour {
 
         for (int row = 0; row < GameGlobals.CHUNK_SIZE; row++)
         {
-            Debug.Log(chunkLines[row]);
             for (int col = 0; col < GameGlobals.CHUNK_SIZE; col++)
             {
                 char idxChar = chunkLines[row].ToUpper()[col];
