@@ -139,7 +139,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed661643cbac3ad4f97147e10c963981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _eventSystem: {fileID: 1413826147}
 --- !u!4 &423965923
 Transform:
   m_ObjectHideFlags: 0
@@ -179,7 +178,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 507551360}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -260, y: 197.00008, z: -0.000042603}
+  m_LocalPosition: {x: -213, y: 197.00008, z: -0.000042603}
   m_LocalScale: {x: 1.0006635, y: 1.0006633, z: 0.9997699}
   m_Children:
   - {fileID: 885190988}
@@ -188,7 +187,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -260, y: 197.00008}
+  m_AnchoredPosition: {x: -213, y: 197.00008}
   m_SizeDelta: {x: 164, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &507551362
@@ -229,7 +228,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 507551363}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2128371035}
+        m_MethodName: EnterBuildMode_Tower
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: tower_red
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &507551363
@@ -265,6 +275,48 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 507551360}
+--- !u!1001 &589854386
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &627973370
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,48 +518,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 885190987}
---- !u!1001 &891503192
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4396054012022796, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: caeffc2886ecd804e871f98ea70dbc8e, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1028262663
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,7 +795,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1498303788}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -430, y: 197, z: 0}
+  m_LocalPosition: {x: -392, y: 197, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 807712105}
@@ -794,7 +804,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -430, y: 197}
+  m_AnchoredPosition: {x: -392, y: 197}
   m_SizeDelta: {x: 164, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1498303790
@@ -908,7 +918,7 @@ RectTransform:
   m_GameObject: {fileID: 1775135786}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 5.9999995}
-  m_LocalScale: {x: 0.011192573, y: 0.011192573, z: 0.011192573}
+  m_LocalScale: {x: 0.01113859, y: 0.01113859, z: 0.01113859}
   m_Children:
   - {fileID: 2128371032}
   m_Father: {fileID: 1028262667}
@@ -1001,7 +1011,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1855547134}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -90, y: 197.00008, z: -0.000042603}
+  m_LocalPosition: {x: -29, y: 197.00008, z: -0.000042603}
   m_LocalScale: {x: 1.0006635, y: 1.0006633, z: 0.9997699}
   m_Children:
   - {fileID: 1306288851}
@@ -1010,7 +1020,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -90, y: 197.00008}
+  m_AnchoredPosition: {x: -29, y: 197.00008}
   m_SizeDelta: {x: 164, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1855547136
@@ -1051,7 +1061,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1855547137}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2128371035}
+        m_MethodName: EnterBuildMode_Tower
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: tower_orange
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1855547137
@@ -1112,7 +1133,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2128371031}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 359.2, y: -245.09998, z: -0}
+  m_LocalPosition: {x: 334.9, y: -245.09998, z: -0}
   m_LocalScale: {x: 0.3, y: 0.2, z: 1}
   m_Children:
   - {fileID: 1498303789}
@@ -1123,7 +1144,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 359.2, y: -245.1}
+  m_AnchoredPosition: {x: 334.9, y: -245.1}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2128371033
@@ -1171,4 +1192,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tileSelectorPrefab: {fileID: 1541476140792888, guid: 3d1a44cf1b92fc44f815cf3510f2a250,
+    type: 2}
+  _towerQuadSelectorPrefab: {fileID: 1604345266573264, guid: 2eb7cfe0b66cd104fa868994062e9b42,
     type: 2}
