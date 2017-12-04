@@ -12,6 +12,9 @@ public class TerrainChunk : MonoBehaviour {
 
     private List<string> _chunkMap;
 
+    public bool builtChunk = false;
+    public bool exploredChunk = false;
+
 	// Use this for initialization
 	void Start () {
 		
