@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class BuilderController : MonoBehaviour {
     private EventSystem _eventSystem;
+    private ChunkManager _chunkManager;
     public GameObject _tileSelectorPrefab;
     public GameObject _towerQuadSelectorPrefab;
     
@@ -26,8 +27,9 @@ public class BuilderController : MonoBehaviour {
     /// kick ourselves out of build state by clicking on the build state buttons.
     /// </summary>
 	void Start () {
-        _currentGameState = GameObject.FindObjectOfType<GameState>();
+        _currentGameState = GetComponent<GameState>();
         _eventSystem = GameObject.FindObjectOfType<EventSystem>();
+        _chunkManager = GetComponent<ChunkManager>();
 
         _structurePrefabs = GameUtils.LoadResourcePrefabs(GameGlobals.TOWER_PREFAB_FILE);
 	}
@@ -100,6 +102,7 @@ public class BuilderController : MonoBehaviour {
 
     /// <summary>
     /// Place the current build structure in the world.
+    /// Trigger Builds of all adjacent chunks.
     /// </summary>
     public GameObject BuildStructure(Transform buildTile, string structureName, Transform parentChunk)
     {
@@ -109,6 +112,10 @@ public class BuilderController : MonoBehaviour {
             buildTile.localPosition.z * buildTile.parent.localScale.z
             );
         Vector3 buildPosition = buildTile.parent.localPosition + quadOffset;
+
+        TerrainChunk chunk = parentChunk.GetComponent<TerrainChunk>();
+        // build unbuilt adjacent chunks
+        _chunkManager.ChunkBuildPostProcess(chunk._id);
 
         return Instantiate<GameObject>(_structurePrefabs[structureName], buildPosition, _structurePrefabs[structureName].transform.rotation, parentChunk);
     }

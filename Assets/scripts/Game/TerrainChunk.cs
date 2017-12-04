@@ -12,12 +12,32 @@ public class TerrainChunk : MonoBehaviour {
 
     private List<string> _chunkMap;
 
-    public bool builtChunk = false;
-    public bool exploredChunk = false;
+    public Vector2Int _id;
+
+    /// <summary>
+    /// Signifies a chunk that has executed InitChunk.
+    /// </summary>
+    public bool builtChunk { get; private set; }
 
 	// Use this for initialization
 	void Start () {
-		
+        builtChunk = false;
+        _chunkMap = null;
+    }
+
+    /// <summary>
+    /// Set the chunk map data. Must be called before InitChunk.
+    /// </summary>
+    /// <param name="chunkData"></param>
+    public void SetChunkMap(string chunkData)
+    {
+        if (_chunkMap == null)
+        {
+            _chunkMap = new List<string>(chunkData.Split('\n'));
+            _chunkMap.Reverse();
+
+            Assert.AreEqual(GameGlobals.CHUNK_SIZE, _chunkMap.Count);
+        }
     }
 
     /// <summary>
@@ -25,14 +45,12 @@ public class TerrainChunk : MonoBehaviour {
     /// Process the passed chunk data block and instantiate the necessary tiles.
     /// </summary>
     /// <param name="_chunkData">A chunk data block.</param>
-    public void InitChunk(string _chunkData)
+    public void InitChunk()
     {
+        Assert.IsNotNull(_chunkMap);
+
+        builtChunk = true;
         tiles = new GameObject[GameGlobals.CHUNK_SIZE, GameGlobals.CHUNK_SIZE];
-
-        _chunkMap = new List<string>(_chunkData.Split('\n'));
-        _chunkMap.Reverse();
-
-        Assert.AreEqual(GameGlobals.CHUNK_SIZE, _chunkMap.Count);
 
         for (int row = 0; row < GameGlobals.CHUNK_SIZE; row++)
         {
@@ -51,7 +69,13 @@ public class TerrainChunk : MonoBehaviour {
                 }
 
                 Assert.IsTrue(tileIndex <= _tileMaterials.Length, "You forgot to add a prefab to the tile material list. Found " + tileIndex + " with max of " + (_tileMaterials.Length - 1));
-                tiles[row, col] = Instantiate(_tilePrefab, GameUtils.GetTilePosAt(col, row), Quaternion.identity, transform);
+                
+                GameObject tile = Instantiate<GameObject>(_tilePrefab);
+                tile.transform.parent = transform;
+                tile.transform.localPosition = GameUtils.GetTilePosAt(col, row);
+                tile.transform.rotation = Quaternion.identity;
+                tiles[row, col] = tile;
+
 
                 if (idxChar > 0)
                 {
@@ -85,6 +109,11 @@ public class TerrainChunk : MonoBehaviour {
         return startPoints;
     }
 
+    /// <summary>
+    /// Get the tile at the given position.
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
     public GameObject GetTileAt(Vector2Int position)
     {
         return tiles[position.y, position.x];

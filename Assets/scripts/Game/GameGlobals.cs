@@ -11,6 +11,7 @@ public static class GameGlobals {
 
     public const string CHUNK_PREFAB_NAME = "prefabs/chunk";
     public const int CHUNK_SIZE = 32;
+    public const float CHUNK_TILE_Y_POS = 0f;
 
     public const string TOWER_PREFAB_FILE = "towers";
     
