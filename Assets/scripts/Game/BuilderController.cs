@@ -101,7 +101,7 @@ public class BuilderController : MonoBehaviour {
     /// <summary>
     /// Place the current build structure in the world.
     /// </summary>
-    public void BuildStructure(Transform buildTile, string structureName, Transform parentChunk)
+    public GameObject BuildStructure(Transform buildTile, string structureName, Transform parentChunk)
     {
         Vector3 quadOffset = new Vector3(
             buildTile.localPosition.x * buildTile.parent.localScale.x,
@@ -110,6 +110,6 @@ public class BuilderController : MonoBehaviour {
             );
         Vector3 buildPosition = buildTile.parent.localPosition + quadOffset;
 
-        GameObject newStructure = Instantiate<GameObject>(_structurePrefabs[structureName], buildPosition, _structurePrefabs[structureName].transform.rotation, parentChunk);
+        return Instantiate<GameObject>(_structurePrefabs[structureName], buildPosition, _structurePrefabs[structureName].transform.rotation, parentChunk);
     }
 }
