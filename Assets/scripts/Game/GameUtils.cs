@@ -39,6 +39,15 @@ public static class GameUtils {
             .ToDictionary(k => k.Name, v => Resources.Load<GameObject>(v.Path));
     }
 
+    public static Dictionary<string, Texture2D> LoadResourceTextures(string filename)
+    {
+        TextAsset prefabTextAsset = Resources.Load(filename) as TextAsset;
+
+        return new List<string>(prefabTextAsset.text.Split('\n'))
+            .Select(l => new PrefabEntry(l))
+            .ToDictionary(k => k.Name, v => Resources.Load<Texture2D>(v.Path));
+    }
+
     /// <summary>
     /// Parse prefab file lines so we can import them and keep everything straight.
     /// I've been reading that resource importing can be kind of random sometimes

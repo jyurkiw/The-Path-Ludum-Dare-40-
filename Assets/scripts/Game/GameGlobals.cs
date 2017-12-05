@@ -13,12 +13,18 @@ public static class GameGlobals {
     public const int CHUNK_SIZE = 32;
     public const float CHUNK_TILE_Y_POS = 0f;
 
+    public static readonly Vector3 CHUNK_PLANE_XZ_OFFSET = new Vector3(15.5f, 0, 15.5f);
+    public const string CHUNK_PLANE_PREFAB_RESOURCE_NAME = "prefabs/chunk_plane";
+
+    public const string DEFAULT_GRASS_KEY = "XXX,XXX,XXX";
+
     public const string TOWER_PREFAB_FILE = "towers";
     
     public const float TILE_Y_OFFSET = 0f;
 
     public const float TILE_SELECT_Y_OFFSET = 0.01f;
     public static readonly string TILE_SELECT_INIT_NAME = "TileSelectionOverlay";
+    public const int TILE_SZIE = 64;
 
     public const string VALID_WELL_TILES = "123456";
     public const string WELL_PREFAB_NAME = "player_well";

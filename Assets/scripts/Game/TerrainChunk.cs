@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public class TerrainChunk : MonoBehaviour {
-    private GameObject[,] tiles;
+    //private GameObject[,] tiles;
     public GameObject _tilePrefab;
     public Material[] _tileMaterials;
 
@@ -21,8 +21,8 @@ public class TerrainChunk : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        builtChunk = false;
-        _chunkMap = null;
+        //builtChunk = false;
+        //_chunkMap = null;
     }
 
     /// <summary>
@@ -48,41 +48,6 @@ public class TerrainChunk : MonoBehaviour {
     public void InitChunk()
     {
         Assert.IsNotNull(_chunkMap);
-
-        builtChunk = true;
-        tiles = new GameObject[GameGlobals.CHUNK_SIZE, GameGlobals.CHUNK_SIZE];
-
-        for (int row = 0; row < GameGlobals.CHUNK_SIZE; row++)
-        {
-            for (int col = 0; col < GameGlobals.CHUNK_SIZE; col++)
-            {
-                char idxChar = _chunkMap[row].ToUpper()[col];
-                int tileIndex;
-
-                if (idxChar >= '0' && idxChar <= '9')
-                {
-                    tileIndex = int.Parse(idxChar.ToString());
-                }
-                else
-                {
-                    tileIndex = 10 + (int)(idxChar - 'A');
-                }
-
-                Assert.IsTrue(tileIndex <= _tileMaterials.Length, "You forgot to add a prefab to the tile material list. Found " + tileIndex + " with max of " + (_tileMaterials.Length - 1));
-                
-                GameObject tile = Instantiate<GameObject>(_tilePrefab);
-                tile.transform.parent = transform;
-                tile.transform.localPosition = GameUtils.GetTilePosAt(col, row);
-                tile.transform.rotation = Quaternion.identity;
-                tiles[row, col] = tile;
-
-
-                if (idxChar > 0)
-                {
-                    tiles[row, col].GetComponent<Renderer>().material = _tileMaterials[tileIndex];
-                }
-            }
-        }
     }
 
     /// <summary>
@@ -116,6 +81,7 @@ public class TerrainChunk : MonoBehaviour {
     /// <returns></returns>
     public GameObject GetTileAt(Vector2Int position)
     {
-        return tiles[position.y, position.x];
+        //return tiles[position.y, position.x];
+        return new GameObject();
     }
 }

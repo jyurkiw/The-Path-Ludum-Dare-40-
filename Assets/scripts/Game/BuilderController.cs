@@ -29,7 +29,7 @@ public class BuilderController : MonoBehaviour {
 	void Start () {
         _currentGameState = GetComponent<GameState>();
         _eventSystem = GameObject.FindObjectOfType<EventSystem>();
-        _chunkManager = GetComponent<ChunkManager>();
+        //_chunkManager = GetComponent<ChunkManager>();
 
         _structurePrefabs = GameUtils.LoadResourcePrefabs(GameGlobals.TOWER_PREFAB_FILE);
 	}
@@ -43,12 +43,12 @@ public class BuilderController : MonoBehaviour {
 
             if (Physics.Raycast(clickCastDirection.origin, clickCastDirection.direction, out hit, 100, 1 << _buildLayerMask))
             {
-                Vector3 overlayLoc = new Vector3(hit.transform.position.x, GameGlobals.TILE_SELECT_Y_OFFSET, hit.transform.position.z);
-                if (_tileSelector == null)
-                {
-                    InitSelectOverlay(_tileSelectOverlay, _buildType, overlayLoc);
-                }
-                _tileSelector.transform.SetPositionAndRotation(overlayLoc, Quaternion.identity);
+                //Vector3 overlayLoc = new Vector3(hit.transform.position.x, GameGlobals.TILE_SELECT_Y_OFFSET, hit.transform.position.z);
+                //if (_tileSelector == null)
+                //{
+                //    InitSelectOverlay(_tileSelectOverlay, _buildType, overlayLoc);
+                //}
+                //_tileSelector.transform.SetPositionAndRotation(overlayLoc, Quaternion.identity);
             }
 
             // Build the tower and exit build mode
@@ -106,17 +106,18 @@ public class BuilderController : MonoBehaviour {
     /// </summary>
     public GameObject BuildStructure(Transform buildTile, string structureName, Transform parentChunk)
     {
-        Vector3 quadOffset = new Vector3(
-            buildTile.localPosition.x * buildTile.parent.localScale.x,
-            _structurePrefabs[structureName].transform.position.y,
-            buildTile.localPosition.z * buildTile.parent.localScale.z
-            );
-        Vector3 buildPosition = buildTile.parent.localPosition + quadOffset;
+        //Vector3 quadOffset = new Vector3(
+        //    buildTile.localPosition.x * buildTile.parent.localScale.x,
+        //    _structurePrefabs[structureName].transform.position.y,
+        //    buildTile.localPosition.z * buildTile.parent.localScale.z
+        //    );
+        //Vector3 buildPosition = buildTile.parent.localPosition + quadOffset;
 
-        TerrainChunk chunk = parentChunk.GetComponent<TerrainChunk>();
-        // build unbuilt adjacent chunks
-        _chunkManager.ChunkBuildPostProcess(chunk._id);
+        //TerrainChunk chunk = parentChunk.GetComponent<TerrainChunk>();
+        //// build unbuilt adjacent chunks
+        //_chunkManager.ChunkBuildPostProcess(chunk._id);
 
-        return Instantiate<GameObject>(_structurePrefabs[structureName], buildPosition, _structurePrefabs[structureName].transform.rotation, parentChunk);
+        //return Instantiate<GameObject>(_structurePrefabs[structureName], buildPosition, _structurePrefabs[structureName].transform.rotation, parentChunk);
+        return new GameObject();
     }
 }
