@@ -65,4 +65,53 @@ public static class GameUtils {
             Name = line.Substring(space).Trim();
         }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="blueprint"></param>
+    /// <returns></returns>
+    public static List<string> MapFromBlueprint(string blueprint)
+    {
+        return new List<string>(blueprint.Split('\n').Select(x => x.TrimEnd()));
+    }
+}
+
+public static class Extensions
+{
+    /// <summary>
+    /// Change a vector 3 to an integer vector 3.
+    /// This just drops decimal place data and converts floats to ints.
+    /// </summary>
+    /// <param name="vec"></param>
+    /// <returns></returns>
+    public static Vector3Int ToVector3Int(this Vector3 vec)
+    {
+        return new Vector3Int((int)vec.x, (int)vec.y, (int)vec.z);
+    }
+
+    /// <summary>
+    /// Change a vector 3 to an integer vector 3.
+    /// This rounds all float values before casting floats to ints.
+    /// </summary>
+    /// <param name="vec"></param>
+    /// <returns></returns>
+    public static Vector3Int RoundToVector3Int(this Vector3 vec)
+    {
+        return new Vector3Int((int)Mathf.Round(vec.x), (int)Mathf.Round(vec.y), (int)Mathf.Round(vec.z));
+    }
+
+    /// <summary>
+    /// Change a vector 2 int to a vector3.
+    /// x => x
+    /// y = 0
+    /// y => z
+    /// 
+    /// </summary>
+    /// <param name="vec">The vector2 to translate.</param>
+    /// <returns>A vector3</returns>
+    public static Vector3 ToVector3(this Vector2Int vec)
+    {
+        return new Vector3(vec.x, 0, vec.y);
+    }
 }

@@ -29,15 +29,29 @@ public static class ChunkTexturePainter
     }
 
     /// <summary>
-    /// 
+    /// Simple factory method for blank textures.
+    /// </summary>
+    /// <returns></returns>
+    public static Texture2D ChunkTextureFactory()
+    {
+        return new Texture2D(CHUNK_SIZE, CHUNK_SIZE);
+    }
+
+    public static Color[] ChunkTextureArrayFactory()
+    {
+        return new Color[CHUNK_SIZE * CHUNK_SIZE];
+    }
+
+    /// <summary>
+    /// Paint numerous tiles to the chunk texture.
     /// </summary>
     /// <param name="chunkBlueprint"></param>
     /// <returns></returns>
-    public static Texture2D PaintChunkTexture(string chunkBlueprint)
+    public static void PaintChunkTextureImmediately(TerrainChunk chunk)
     {
-        Texture2D chunkTexture = new Texture2D(CHUNK_SIZE, CHUNK_SIZE);
-        List<string> chunkMap = MapFromBlueprint(chunkBlueprint);
-        
+        Texture2D chunkTexture = ChunkTextureFactory();
+        List<string> chunkMap = GameUtils.MapFromBlueprint(chunk.ChunkMap);
+
         for (int row = 0; row < GameGlobals.CHUNK_SIZE; row++)
         {
             for (int col = 0; col < GameGlobals.CHUNK_SIZE; col++)
@@ -50,7 +64,7 @@ public static class ChunkTexturePainter
         }
 
         chunkTexture.Apply();
-        return chunkTexture;
+        chunk.Renderer.material.mainTexture = chunkTexture;
     }
 
     /// <summary>
@@ -60,15 +74,19 @@ public static class ChunkTexturePainter
     /// <param name="tileTexture"></param>
     /// <param name="row"></param>
     /// <param name="col"></param>
-    public static void CopyTileToChunk(ref Texture2D chunkTexture, Texture2D tileTexture, int row, int col)
+    //public static void CopyTileToChunk(ref Color[] chunkTextureData, Texture2D tileTexture, int row, int col)
+    public static void CopyTileToChunk(ref Texture2D destTexture, Texture2D tileTexture, int row, int col)
     {
-        for (int sourceX = 0, destX = col * tileTexture.width; sourceX < tileTexture.width; sourceX++, destX++)
+        Color[] chunkTextureData = new Color[tileTexture.width * tileTexture.height];
+
+        for (int sourceY = 0; sourceY < tileTexture.height; sourceY++)
         {
-            for (int sourceY = 0, destY = row * tileTexture.height; sourceY < tileTexture.height; sourceY++, destY++)
+            for (int sourceX = 0; sourceX < tileTexture.width; sourceX++)
             {
-                chunkTexture.SetPixel(destX, destY, tileTexture.GetPixel(sourceX, sourceY));
+                chunkTextureData[(sourceY * tileTexture.width) + sourceX] = tileTexture.GetPixel(sourceX, sourceY);
             }
         }
+        destTexture.SetPixels(tileTexture.width * col, tileTexture.height * row, tileTexture.width, tileTexture.height, chunkTextureData);
     }
 
     /// <summary>
@@ -88,41 +106,12 @@ public static class ChunkTexturePainter
         string code = string.Empty;
         if (row - 1 >= 0 && map[row - 1][col] == 'P') code += 'N';
         if (row + 1 < map.Count && map[row + 1][col] == 'P') code += 'S';
-
-        try
-        {
-            if (col + 1 < map[row].Length && map[row][col + 1] == 'P') code += 'E';
-            if (col - 1 >= 0 && map[row][col - 1] == 'P') code += 'W';
-        }
-        catch (Exception)
-        {
-            Debug.Log(string.Format("Row: {0}", row));
-            Debug.Log(string.Format("Map.Count: {0}", map.Count));
-            Debug.Log(string.Format("Col + 1: {0}", col + 1));
-            Debug.Log(string.Format("String Length: {0}", map[row].Length));
-            try
-            {
-                Debug.Log(string.Format("Target Character: {0}", map[row][col + 1]));
-            }
-            catch (Exception)
-            {
-                Debug.Log("FUUUUUUUUUUUUU");
-            }
-        }
+        if (col + 1 < map[row].Length && map[row][col + 1] == 'P') code += 'E';
+        if (col - 1 >= 0 && map[row][col - 1] == 'P') code += 'W';
 
         if (code.CompareTo("N") == 0 || code.CompareTo("S") == 0) code = "NS";
         if (code.CompareTo("E") == 0 || code.CompareTo("W") == 0) code = "EW";
 
         return code;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="blueprint"></param>
-    /// <returns></returns>
-    public static List<string> MapFromBlueprint(string blueprint)
-    {
-        return new List<string>(blueprint.Split('\n').Select(x => x.TrimEnd()));
     }
 }

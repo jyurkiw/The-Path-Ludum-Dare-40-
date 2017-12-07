@@ -23,7 +23,8 @@ GameObject:
   - component: {fileID: 23820770724405606}
   - component: {fileID: 64136763503272896}
   - component: {fileID: 95013857012012302}
-  m_Layer: 0
+  - component: {fileID: 114397879480822678}
+  m_Layer: 8
   m_Name: chunk_plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,3 +116,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114397879480822678
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1867080227741458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 232bdff421801f54699c8c871cb66500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tilePrefab: {fileID: 0}
+  _tileMaterials: []
+  _id: {x: 0, y: 0}

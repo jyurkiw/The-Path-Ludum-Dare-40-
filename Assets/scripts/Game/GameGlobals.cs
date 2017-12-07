@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class GameGlobals {
-    public const int BUILD_TOWER_LAYER_MASK = 8;
-
     public const float CAMERA_MOVE_SPEED = 0.25f;
     public const float CAMERA_MOUSE_MIN_MOVE_SPEED = 0.05f;
     public const float CAMERA_INIT_POSITION_Z_OFFSET = -2f;
@@ -12,13 +10,17 @@ public static class GameGlobals {
     public const string CHUNK_PREFAB_NAME = "prefabs/chunk";
     public const int CHUNK_SIZE = 32;
     public const float CHUNK_TILE_Y_POS = 0f;
-
-    public static readonly Vector3 CHUNK_PLANE_XZ_OFFSET = new Vector3(15.5f, 0, 15.5f);
+    
     public const string CHUNK_PLANE_PREFAB_RESOURCE_NAME = "prefabs/chunk_plane";
 
     public const string DEFAULT_GRASS_KEY = "XXX,XXX,XXX";
 
+    public const int TERRAIN_MASK = 8;
+    public const int TERRAIN_YIELD_THRESHOLD = 8;
+
     public const string TOWER_PREFAB_FILE = "towers";
+    public const string TOWER_PLACEMENT_KEY = "tower_placement";
+    public const string TOWER_SELECT_KEY = "tower_select";
     
     public const float TILE_Y_OFFSET = 0f;
 

@@ -16,8 +16,11 @@ public class ChunkManager : MonoBehaviour {
 
     private string testData;
 
+    private BackgroundTexturePainter _backgroundTexturePainter;
+
 	// Use this for initialization
 	public void Start () {
+        _backgroundTexturePainter = GetComponent<BackgroundTexturePainter>();
         testData = Resources.Load<TextAsset>("chunks").text;
 
         //// Load the chunk prefab
@@ -28,26 +31,16 @@ public class ChunkManager : MonoBehaviour {
         //AddNewChunkAt(Vector2Int.zero);
 
         // Hand initialize the first chunk for testing
-        // TODO: Co-routine texture creation
         GameObject chunk1 = Instantiate(_chunkPrefab);
-        Texture2D chunkTexture = ChunkTexturePainter.PaintChunkTexture(testData);
-        Renderer chunkRenderer = chunk1.GetComponent<Renderer>();
-        chunkRenderer.material.mainTexture = chunkTexture;
+        TerrainChunk tc = chunk1.GetComponent<TerrainChunk>();
+        chunk1.GetComponent<TerrainChunk>().ChunkMap = testData;
+        _backgroundTexturePainter.EnqueueChunk(chunk1);
 
     }
 	
 	// Update is called once per frame
 	public void Update () {
-        //if (Input.anyKey)
-        //{
-        //    int textureScaleId = Shader.PropertyToID("");
 
-        //    //GameObject chunk1 = Instantiate(_chunkPrefab, GameGlobals.CHUNK_PLANE_XZ_OFFSET, Quaternion.identity);
-        //    GameObject chunk1 = Instantiate(_chunkPrefab);
-        //    Texture2D chunkTexture = ChunkTexturePainter.PaintChunkTexture(testData);
-        //    Renderer chunkRenderer = chunk1.GetComponent<Renderer>();
-        //    chunkRenderer.material.mainTexture = chunkTexture;
-        //}
     }
 
     // Translate a Vector2Int chunk position into world coordinates by setting Y to the chunk default and
@@ -60,85 +53,57 @@ public class ChunkManager : MonoBehaviour {
     // Get the 8 positions surrounding the passed chunk.
     private List<Vector2Int> GetNeighborChunkIds(TerrainChunk chunk)
     {
-        //List<Vector2Int> chunkIds = new List<Vector2Int>();
-        //Vector2Int id = new Vector2Int();
+        List<Vector2Int> chunkIds = new List<Vector2Int>();
+        Vector2Int id = new Vector2Int();
 
-        //for (int row = chunk._id.y - 1; row <= chunk._id.y + 1; row++)
-        //{
-        //    id.y = row;
-        //    for (int col = chunk._id.x - 1; col <= chunk._id.x + 1; col++)
-        //    {
-        //        id.x = col;
+        for (int row = chunk.Id.y - 1; row <= chunk.Id.y + 1; row++)
+        {
+            id.y = row;
+            for (int col = chunk.Id.x - 1; col <= chunk.Id.x + 1; col++)
+            {
+                id.x = col;
 
-        //        if (id != chunk._id)
-        //        {
-        //            chunkIds.Add(new Vector2Int(id.x, id.y));
-        //        }
-        //    }
-        //}
-        //foreach (Vector2Int x in chunkIds) Debug.Log(x);
-        //return chunkIds;
-        return null;
+                if (id != chunk.Id)
+                {
+                    chunkIds.Add(new Vector2Int(id.x, id.y));
+                }
+            }
+        }
+        foreach (Vector2Int x in chunkIds) Debug.Log(x);
+        return chunkIds;
     }
 
     /// <summary>
-    /// Add a new chunk to the chunks dictionary at the given position.
-    /// If a chunk at that position already exists, but has not been built,
-    /// build it.
+    /// Add a new chunk to the chunks dictionary at the given position unless that chunk already exists.
     /// </summary>
     /// <param name="pos">The position of the new chunk.</param>
     /// <returns>The chunk added to the manager.</returns>
-    public TerrainChunk AddNewChunkAt(Vector2Int pos, bool addNeighbors = true)
+    public TerrainChunk ActivateChunkAt(Vector2Int pos)
     {
-        //TerrainChunk chunk;
+        if (!_chunks.ContainsKey(pos))
+        {
+            TerrainChunk chunk = CreateNewChunkAt(pos);
+            _chunks.Add(pos, chunk);
 
-        //if (!_chunks.ContainsKey(pos))
-        //{
-        //    chunk = Instantiate<GameObject>(_chunkPrefab, TranslatePosToWorldPos(pos), Quaternion.identity).GetComponent<TerrainChunk>();
-        //    _chunks.Add(pos, chunk);
-        //    chunk._id = pos;
-        //    chunk.SetChunkMap(testData);
-        //}
-        //else
-        //{
-        //    chunk = _chunks[pos];
-        //    if (!chunk.builtChunk)
-        //    {
-        //        chunk.InitChunk();
-        //    }
-        //    else return chunk;
-        //}
-
-        //// Handle neighbor chunks
-        //if (addNeighbors)
-        //{
-        //    foreach (Vector2Int nPos in GetNeighborChunkIds(chunk))
-        //    {
-        //        if (!_chunks.ContainsKey(nPos))
-        //        {
-        //            TerrainChunk simChunk = AddNewChunkAt(nPos, false);
-        //            simChunk.SetChunkMap(testData);
-        //        }
-        //    }
-        //}
-
-        //return chunk;
-        return null;
+            return chunk;
+        }
+        else
+        {
+            return _chunks[pos];
+        }
     }
 
     /// <summary>
-    /// Check adjacent chunks for simulation, and build them if necessary.
+    /// Create a new chunk at the passed position.
+    /// TODO: Access the procedural path generator to initialize the ChunkMap rather than test data.
     /// </summary>
-    /// <param name="pos"></param>
-    public void ChunkBuildPostProcess(Vector2Int pos)
+    /// <param name="pos">The location of the new chunk.</param>
+    /// <returns></returns>
+    public TerrainChunk CreateNewChunkAt(Vector2Int pos)
     {
-        //foreach (Vector2Int adjPos in GetNeighborChunkIds(_chunks[pos]))
-        //{
-        //    TerrainChunk adjacentChunk = _chunks[adjPos];
-        //    if (!adjacentChunk.builtChunk)
-        //    {
-        //        AddNewChunkAt(adjacentChunk._id);
-        //    }
-        //}
+        TerrainChunk chunk = Instantiate<GameObject>(_chunkPrefab, TranslatePosToWorldPos(pos), Quaternion.identity).GetComponent<TerrainChunk>();
+        chunk.ChunkMap = testData;
+
+        return chunk;
     }
 }

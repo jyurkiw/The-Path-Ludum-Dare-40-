@@ -2,5 +2,7 @@ prefabs/player/tower_red tower_red
 prefabs/player/tower_blue tower_blue
 prefabs/player/tower_orange tower_orange
 prefabs/player/well player_well
+prefabs/player/tower_placement tower_placement
+prefabs/player/tower_select tower_select
 prefabs/enemy/enemy enemy
 prefabs/enemy/enemy_well enemy_well
