@@ -9,15 +9,12 @@ using UnityEngine.EventSystems;
 public class BuilderController : MonoBehaviour {
     private EventSystem _eventSystem;
     private ChunkManager _chunkManager;
-    public GameObject _tileSelectorPrefab;
-    public GameObject _towerQuadSelectorPrefab;
     
     private GameState _currentGameState;
     private int _buildLayerMask;
     private string _buildType = null;
 
-    private GameObject _tileSelectOverlay;
-    private GameObject _tileSelector;
+    private GameObject _buildPositionMarker;
 
     private Dictionary<string, GameObject> _structurePrefabs;
 
@@ -29,7 +26,7 @@ public class BuilderController : MonoBehaviour {
 	void Start () {
         _currentGameState = GetComponent<GameState>();
         _eventSystem = GameObject.FindObjectOfType<EventSystem>();
-        _chunkManager = GetComponent<ChunkManager>();
+        //_chunkManager = GetComponent<ChunkManager>();
 
         _structurePrefabs = GameUtils.LoadResourcePrefabs(GameGlobals.TOWER_PREFAB_FILE);
 	}
@@ -43,19 +40,22 @@ public class BuilderController : MonoBehaviour {
 
             if (Physics.Raycast(clickCastDirection.origin, clickCastDirection.direction, out hit, 100, 1 << _buildLayerMask))
             {
-                Vector3 overlayLoc = new Vector3(hit.transform.position.x, GameGlobals.TILE_SELECT_Y_OFFSET, hit.transform.position.z);
-                if (_tileSelector == null)
+                Vector3 overlayLoc = hit.point.ToVector3Int();
+
+                // Check for existance of the build position marker (transparent tower gameobject) and instantiate if necessary
+                if (_buildPositionMarker == null)
                 {
-                    InitSelectOverlay(_tileSelectOverlay, _buildType, overlayLoc);
+                    _buildPositionMarker = Instantiate<GameObject>(_structurePrefabs[GameGlobals.TOWER_PLACEMENT_KEY]);
                 }
-                _tileSelector.transform.SetPositionAndRotation(overlayLoc, Quaternion.identity);
+
+                _buildPositionMarker.transform.SetPositionAndRotation(overlayLoc, Quaternion.identity);
             }
 
             // Build the tower and exit build mode
             if (Input.GetMouseButtonUp(0) && !_eventSystem.IsPointerOverGameObject())
             {
                 _currentGameState._gameState = GameState.GAME_STATE.VIEW;
-                BuildStructure(hit.transform, _buildType, hit.transform.parent.parent);
+                BuildStructure(hit, _buildType);
                 KillSelectOverlay();
             }
         }
@@ -70,26 +70,7 @@ public class BuilderController : MonoBehaviour {
     {
         _buildType = type.Trim();
         _currentGameState._gameState = GameState.GAME_STATE.BUILD;
-        _buildLayerMask = GameGlobals.BUILD_TOWER_LAYER_MASK;
-        _tileSelectOverlay = _towerQuadSelectorPrefab;
-    }
-
-    /// <summary>
-    /// Initialize the select overlay game object with the passed game object prefab
-    /// </summary>
-    /// <param name="overlayPrefab">The overlay prefab to instantiate.</param>
-    private void InitSelectOverlay(GameObject overlayPrefab, string buildingMarkerKey, Vector3 position)
-    {
-        _tileSelector = new GameObject(GameGlobals.TILE_SELECT_INIT_NAME);
-        _tileSelector.transform.SetPositionAndRotation(position, Quaternion.identity);
-
-        GameObject tileOverlay = Instantiate<GameObject>(overlayPrefab, _tileSelector.transform, false);
-        GameObject buildOverlay = Instantiate<GameObject>(_structurePrefabs[buildingMarkerKey], _tileSelector.transform, false);
-
-        Renderer buildRenderer = buildOverlay.GetComponent<Renderer>();
-        Color buildColor = buildRenderer.material.color;
-        buildRenderer.material.color = new Color(buildColor.r, buildColor.g, buildColor.b, 0.75f);
-        
+        _buildLayerMask = GameGlobals.TERRAIN_MASK;
     }
 
     /// <summary>
@@ -97,26 +78,27 @@ public class BuilderController : MonoBehaviour {
     /// </summary>
     private void KillSelectOverlay()
     {
-        Destroy(_tileSelector);
+        Destroy(_buildPositionMarker);
     }
 
     /// <summary>
     /// Place the current build structure in the world.
-    /// Trigger Builds of all adjacent chunks.
     /// </summary>
-    public GameObject BuildStructure(Transform buildTile, string structureName, Transform parentChunk)
+    public GameObject BuildStructure(RaycastHit hit, string structureName)
     {
-        Vector3 quadOffset = new Vector3(
-            buildTile.localPosition.x * buildTile.parent.localScale.x,
-            _structurePrefabs[structureName].transform.position.y,
-            buildTile.localPosition.z * buildTile.parent.localScale.z
-            );
-        Vector3 buildPosition = buildTile.parent.localPosition + quadOffset;
+        Vector3 buildPosition = hit.point.ToVector3Int();
 
-        TerrainChunk chunk = parentChunk.GetComponent<TerrainChunk>();
-        // build unbuilt adjacent chunks
-        _chunkManager.ChunkBuildPostProcess(chunk._id);
+        return Instantiate<GameObject>(_structurePrefabs[structureName], buildPosition, Quaternion.identity);
+    }
 
-        return Instantiate<GameObject>(_structurePrefabs[structureName], buildPosition, _structurePrefabs[structureName].transform.rotation, parentChunk);
+    /// <summary>
+    /// Place the passed build structure in the world.
+    /// </summary>
+    /// <param name="buildPosition">The position to build at.</param>
+    /// <param name="structureName">The structure to build.</param>
+    /// <returns>The structure built.</returns>
+    public GameObject BuildStructure(Vector2Int buildPosition, string structureName)
+    {
+        return Instantiate<GameObject>(_structurePrefabs[structureName], buildPosition.ToVector3(), Quaternion.identity);
     }
 }

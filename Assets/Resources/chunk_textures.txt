@@ -1,0 +1,15 @@
+chunks/textures/grass G
+chunks/textures/path_E_W EW
+chunks/textures/path_N_S NS
+chunks/textures/path_N_W NW
+chunks/textures/path_N_E NE
+chunks/textures/path_S_E SE
+chunks/textures/path_S_W SW
+chunks/textures/path_N_E_W NEW
+chunks/textures/path_N_S_E NSE
+chunks/textures/path_S_E_W SEW
+chunks/textures/path_N_S_W NSW
+chunks/textures/path_N_S_E_W NSEW
+chunks/textures/crystals_resource C
+chunks/textures/iron_resource I
+chunks/textures/marble_resource M
