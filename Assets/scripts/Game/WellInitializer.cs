@@ -10,9 +10,8 @@ using UnityEngine;
 public class WellInitializer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
-        ChunkManager chunkManager = GetComponentInParent<ChunkManager>();
         BuilderController buildController = GetComponentInParent<BuilderController>();
-        CameraController gimble = FindObjectOfType<CameraController>();
+        //CameraController gimble = FindObjectOfType<CameraController>();
 
         GameObject well = buildController.BuildStructure(new Vector2Int((int)(GameGlobals.CHUNK_SIZE / 2), (int)(GameGlobals.CHUNK_SIZE / 2)), GameGlobals.WELL_PREFAB_NAME);
     }

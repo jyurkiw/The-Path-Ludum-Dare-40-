@@ -32,10 +32,8 @@ public class ChunkManager : MonoBehaviour {
 
         // Hand initialize the first chunk for testing
         GameObject chunk1 = Instantiate(_chunkPrefab);
-        TerrainChunk tc = chunk1.GetComponent<TerrainChunk>();
         chunk1.GetComponent<TerrainChunk>().ChunkMap = testData;
         _backgroundTexturePainter.EnqueueChunk(chunk1);
-
     }
 	
 	// Update is called once per frame

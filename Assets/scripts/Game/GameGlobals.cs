@@ -31,4 +31,8 @@ public static class GameGlobals {
     public const string VALID_WELL_TILES = "123456";
     public const string WELL_PREFAB_NAME = "player_well";
     public static readonly RectInt WELL_START_AREA = new RectInt((int)(CHUNK_SIZE / 4), (int)(CHUNK_SIZE / 4), (int)(CHUNK_SIZE / 2), (int)(CHUNK_SIZE / 2));
+
+    // ERROR MESSAGES
+    public const string NODE_CONNECTION_REQUIREMENTS = "Nodes must have at least one outgoing and one incomming connection.";
+    public const string NODE_CONNECTION_LIMIT_EXCEEDED = "Nodes may not have more than four connections.";
 }
