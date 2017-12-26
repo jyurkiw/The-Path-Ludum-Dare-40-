@@ -33,7 +33,7 @@ public class BackgroundTexturePainter : MonoBehaviour
     }
 
     /// <summary>
-    /// TODO: Change to use SetPixels rather than setPixel. The apply that follows should be a lot faster.
+    /// 
     /// </summary>
     /// <param name="chunkBlueprint"></param>
     /// <returns></returns>

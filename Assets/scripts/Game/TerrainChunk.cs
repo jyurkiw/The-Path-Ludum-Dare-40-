@@ -16,6 +16,14 @@ public class TerrainChunk : MonoBehaviour {
     public Renderer Renderer { get; private set; }
     public string ChunkMap { get; set; }
 
+    public Rect ChunkBounds
+    {
+        get
+        {
+            return new Rect(Id, new Vector2Int(GameGlobals.CHUNK_SIZE, GameGlobals.CHUNK_SIZE));
+        }
+    }
+
     private void Start()
     {
         Renderer = GetComponent<Renderer>();
