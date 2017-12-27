@@ -31,6 +31,11 @@ public class TestAlgorithmSuccess : IPathAlgorithm
         }
     }
 
+    public List<Vector2Int> GetEndPoints()
+    {
+        throw new NotImplementedException();
+    }
+
     public NodePointPair GetNext()
     {
         throw new NotImplementedException();
@@ -57,6 +62,62 @@ public class TestAlgorithmSuccess : IPathAlgorithm
     }
 }
 
+[PathAlgorithm(AlgorithmType.TEST)]
+public class TestHighAlgorithmSuccess : IHighLevelPathAlgorithm
+{
+    public bool HasNext
+    {
+        get
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public List<Vector2Int> GetEndPoints()
+    {
+        throw new NotImplementedException();
+    }
+
+    public NodePointPair GetNext()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Reset()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Run()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SetBounds(Node start, Rect bounds)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+[PathAlgorithm(AlgorithmType.TEST)]
+public class TestLowAlgorithmSuccess : ILowLevelPathAlgorithm
+{
+    public void Reset()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Run()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SetPoints(Node start, Vector2Int end)
+    {
+        throw new NotImplementedException();
+    }
+}
+
 [PathAlgorithm(AlgorithmType.TEST, true)]
 public class TestAlgorithmIgnore : IPathAlgorithm
 {
@@ -66,6 +127,11 @@ public class TestAlgorithmIgnore : IPathAlgorithm
         {
             throw new NotImplementedException();
         }
+    }
+
+    public List<Vector2Int> GetEndPoints()
+    {
+        throw new NotImplementedException();
     }
 
     public NodePointPair GetNext()
@@ -102,12 +168,13 @@ public class TestAlgorithmIgnore : IPathAlgorithm
  */
 
 [PathAlgorithm(AlgorithmType.HIGH_LEVEL, ignore: true)]
-public class StraightLineHighLevelAlgorithm : IPathAlgorithm
+public class StraightLineHighLevelAlgorithm : IHighLevelPathAlgorithm
 {
     private Rect Bounds { get; set; }
     private Node WellNode { get; set; }
 
     private Stack<NodePointPair> nodePoints = new Stack<NodePointPair>();
+    private List<Vector2Int> endPoints;
 
     public bool HasNext
     {
@@ -122,6 +189,7 @@ public class StraightLineHighLevelAlgorithm : IPathAlgorithm
         Bounds = new Rect();
         WellNode = null;
         nodePoints = new Stack<NodePointPair>();
+        endPoints = null;
     }
 
     /// <summary>
@@ -140,6 +208,8 @@ public class StraightLineHighLevelAlgorithm : IPathAlgorithm
 
         // West
         nodePoints.Push(new NodePointPair(WellNode, (int)Bounds.xMin, WellNode.Location.y));
+
+        endPoints = nodePoints.Select(x => x.Point).ToList();
     }
 
     public void SetBounds(Node start, Rect bounds)
@@ -157,10 +227,15 @@ public class StraightLineHighLevelAlgorithm : IPathAlgorithm
     {
         return nodePoints.Pop();
     }
+
+    public List<Vector2Int> GetEndPoints()
+    {
+        return endPoints;
+    }
 }
 
 [PathAlgorithm(AlgorithmType.LOW_LEVEL, ignore: true)]
-public class StraightLineLowLevelAlgorithm : IPathAlgorithm
+public class StraightLineLowLevelAlgorithm : ILowLevelPathAlgorithm
 {
     private Node StartNode { get; set; }
     private Node CurrNode;
@@ -172,7 +247,7 @@ public class StraightLineLowLevelAlgorithm : IPathAlgorithm
     {
         get
         {
-            return CurrNode.Location != Destination;
+            throw new NotImplementedException();
         }
     }
 
@@ -190,7 +265,7 @@ public class StraightLineLowLevelAlgorithm : IPathAlgorithm
 
     public void Run()
     {
-        while(HasNext)
+        while(CurrNode.Location != Destination)
         {
             int nX = CurrNode.Location.x + xMod;
             int nY = CurrNode.Location.y + yMod;
@@ -238,5 +313,10 @@ public class StraightLineLowLevelAlgorithm : IPathAlgorithm
                 xMod = -1;
             }
         }
+    }
+
+    public List<Vector2Int> GetEndPoints()
+    {
+        throw new NotImplementedException();
     }
 }

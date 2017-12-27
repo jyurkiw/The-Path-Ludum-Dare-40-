@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -17,15 +18,58 @@ using UnityEngine;
 /// </summary>
 public class PathBuilder
 {
-    private List<IPathAlgorithm> highAlgorithms, lowAlgorithms;
+    private List<IHighLevelPathAlgorithm> highAlgorithms;
+    private List<ILowLevelPathAlgorithm> lowAlgorithms;
 
     private Dictionary<Vector2Int, Node> pathNodes;
+    private Queue<Node> edgeNodes;
+
+    /// <summary>
+    /// Path Node X, Y indexer.
+    /// </summary>
+    /// <param name="x">X loc of the node.</param>
+    /// <param name="y">Y loc of the node.</param>
+    /// <returns></returns>
+    public Node this[int x, int y]
+    {
+        get
+        {
+            Vector2Int key = new Vector2Int(x, y);
+            if (pathNodes.ContainsKey(key))
+                return pathNodes[key];
+            else return null;
+        }
+    }
+
+    /// <summary>
+    /// Path Node Vector2Int indexer.
+    /// </summary>
+    /// <param name="loc"></param>
+    /// <returns></returns>
+    public Node this[Vector2Int loc]
+    {
+        get
+        {
+            if (pathNodes.ContainsKey(loc))
+                return pathNodes[loc];
+            else return null;
+        }
+    }
 
     public PathBuilder()
     {
-        highAlgorithms = DiscoverAlgotithmsByType(AlgorithmType.HIGH_LEVEL);
-        lowAlgorithms = DiscoverAlgotithmsByType(AlgorithmType.LOW_LEVEL);
+        highAlgorithms = DiscoverAlgotithmsByType<IHighLevelPathAlgorithm>(AlgorithmType.HIGH_LEVEL);
+        lowAlgorithms = DiscoverAlgotithmsByType<ILowLevelPathAlgorithm>(AlgorithmType.LOW_LEVEL);
         pathNodes = new Dictionary<Vector2Int, Node>();
+        edgeNodes = new Queue<Node>();
+    }
+
+    public PathBuilder(List<IHighLevelPathAlgorithm> highAlgorithms, List<ILowLevelPathAlgorithm> lowAlgorithms)
+    {
+        this.highAlgorithms = highAlgorithms;
+        this.lowAlgorithms = lowAlgorithms;
+        pathNodes = new Dictionary<Vector2Int, Node>();
+        edgeNodes = new Queue<Node>();
     }
 
     /// <summary>
@@ -34,9 +78,9 @@ public class PathBuilder
     /// </summary>
     /// <param name="type">The algorithm type to return.</param>
     /// <returns>A list of algorithm types that satisfy the IPathAlgorithm contract.</returns>
-    public static List<IPathAlgorithm> DiscoverAlgotithmsByType(AlgorithmType type)
+    public static List<CastType> DiscoverAlgotithmsByType<CastType>(AlgorithmType type) where CastType : IPathAlgorithm
     {
-        List<IPathAlgorithm> algos = new List<IPathAlgorithm>();
+        List<CastType> algos = new List<CastType>();
 
         foreach (Type t in Assembly.GetExecutingAssembly().GetTypes())
         {
@@ -49,10 +93,9 @@ public class PathBuilder
                 if (pathAlgo.Type == type && !pathAlgo.Ignore)
                 {
                     object o = Activator.CreateInstance(t);
-                    IPathAlgorithm algo = o as IPathAlgorithm;
-
-                    if (algo != null)
-                        algos.Add(algo);
+                    
+                    if (o is CastType)
+                        algos.Add((CastType)o);
                 }
             }
         }
@@ -68,11 +111,20 @@ public class PathBuilder
 public interface IPathAlgorithm
 {
     void Reset();
-    void SetPoints(Node start, Vector2Int end);
-    void SetBounds(Node start, Rect bounds);
     void Run();
+}
+
+public interface IHighLevelPathAlgorithm : IPathAlgorithm
+{
     bool HasNext { get; }
     NodePointPair GetNext();
+    void SetBounds(Node start, Rect bounds);
+    List<Vector2Int> GetEndPoints();
+}
+
+public interface ILowLevelPathAlgorithm : IPathAlgorithm
+{
+    void SetPoints(Node start, Vector2Int end);
 }
 
 public class NodePointPair

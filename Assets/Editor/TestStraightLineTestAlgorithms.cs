@@ -11,7 +11,7 @@ public class TestStraightLineTestAlgorithms {
 	[Test]
 	public void TestStraightLine_HighLevel()
     {
-        IPathAlgorithm algo = new StraightLineHighLevelAlgorithm();
+        IHighLevelPathAlgorithm algo = new StraightLineHighLevelAlgorithm();
 
         Node wellNode = new Node(Vector2Int.zero);
         Rect boundingRect = new Rect(-4, -4, 8, 8);
@@ -37,8 +37,8 @@ public class TestStraightLineTestAlgorithms {
     [Test]
     public void TestStraightLine_LowLevel()
     {
-        IPathAlgorithm algo = new StraightLineLowLevelAlgorithm();
-        IPathAlgorithm hlAlgo = new StraightLineHighLevelAlgorithm();
+        ILowLevelPathAlgorithm algo = new StraightLineLowLevelAlgorithm();
+        IHighLevelPathAlgorithm hlAlgo = new StraightLineHighLevelAlgorithm();
 
         Node wellNode = new Node(Vector2Int.zero);
         Rect boundingRect = new Rect(-4, -4, 8, 8);
