@@ -114,4 +114,15 @@ public static class Extensions
     {
         return new Vector3(vec.x, 0, vec.y);
     }
+
+    /// <summary>
+    /// Get a random item from a list.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="list"></param>
+    /// <returns></returns>
+    public static T GetRandom<T>(this List<T> list)
+    {
+        return list[Mathf.RoundToInt((list.Count - 1) * Random.value)];
+    }
 }

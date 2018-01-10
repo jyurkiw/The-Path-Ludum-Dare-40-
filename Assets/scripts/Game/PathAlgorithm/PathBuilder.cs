@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System.Collections.ObjectModel;
 
 /// <summary>
 /// What is the purpose of the Path Builder?
@@ -20,6 +21,7 @@ public class PathBuilder
 {
     private List<IHighLevelPathAlgorithm> highAlgorithms;
     private List<ILowLevelPathAlgorithm> lowAlgorithms;
+    IRectAlgorithm rectAlgorithm;
 
     private Dictionary<Vector2Int, Node> pathNodes;
     private Queue<Node> edgeNodes;
@@ -60,14 +62,16 @@ public class PathBuilder
     {
         highAlgorithms = DiscoverAlgotithmsByType<IHighLevelPathAlgorithm>(AlgorithmType.HIGH_LEVEL);
         lowAlgorithms = DiscoverAlgotithmsByType<ILowLevelPathAlgorithm>(AlgorithmType.LOW_LEVEL);
+        rectAlgorithm = DiscoverAlgotithmsByType<IRectAlgorithm>(AlgorithmType.RECT).GetRandom();
         pathNodes = new Dictionary<Vector2Int, Node>();
         edgeNodes = new Queue<Node>();
     }
 
-    public PathBuilder(List<IHighLevelPathAlgorithm> highAlgorithms, List<ILowLevelPathAlgorithm> lowAlgorithms)
+    public PathBuilder(List<IHighLevelPathAlgorithm> highAlgorithms, List<ILowLevelPathAlgorithm> lowAlgorithms,IRectAlgorithm rectAlgorithm)
     {
         this.highAlgorithms = highAlgorithms;
         this.lowAlgorithms = lowAlgorithms;
+        this.rectAlgorithm = rectAlgorithm;
         pathNodes = new Dictionary<Vector2Int, Node>();
         edgeNodes = new Queue<Node>();
     }
@@ -127,6 +131,15 @@ public interface ILowLevelPathAlgorithm : IPathAlgorithm
     void SetPoints(Node start, Vector2Int end);
 }
 
+public interface IRectAlgorithm : IPathAlgorithm
+{
+    void SetOrigin(Vector2Int origin);
+    bool IsInInnerRegion(Vector2Int loc);
+    bool IsInOuterRegion(Vector2Int loc);
+    bool IsOutsideRegion(Vector2Int loc);
+    ReadOnlyCollection<Rect> OuterRegions { get; }
+}
+
 public class NodePointPair
 {
     public Node Node { get; set; }
@@ -145,7 +158,7 @@ public class NodePointPair
 /// High level algorithms handle point placement and try to prevent blocking paths in.
 /// Low level algorithms handle new node placement.
 /// </summary>
-public enum AlgorithmType { HIGH_LEVEL, LOW_LEVEL, TEST };
+public enum AlgorithmType { HIGH_LEVEL, LOW_LEVEL, RECT, TEST };
 
 [AttributeUsage(AttributeTargets.Class)]
 public class PathAlgorithmAttribute : Attribute

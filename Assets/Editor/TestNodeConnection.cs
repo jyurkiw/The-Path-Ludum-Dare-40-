@@ -41,13 +41,4 @@ public class TestNodeConnection
         Assert.AreEqual(NodeConnection.ConnectionType.INCOMMING, NodeConnection.GetOppositeConnectionType(NodeConnection.ConnectionType.OUTGOING));
         Assert.AreEqual(NodeConnection.ConnectionType.OUTGOING, NodeConnection.GetOppositeConnectionType(NodeConnection.ConnectionType.INCOMMING));
     }
-
-	// A UnityTest behaves like a coroutine in PlayMode
-	// and allows you to yield null to skip a frame in EditMode
-	//[UnityTest]
-	//public IEnumerator TestNodeConnectionWithEnumeratorPasses() {
-	//	// Use the Assert class to test conditions.
-	//	// yield to skip a frame
-	//	yield return null;
-	//}
 }
