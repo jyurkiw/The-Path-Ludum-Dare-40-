@@ -10,25 +10,24 @@ using System.Collections.Generic;
 public enum NODE_DIRECTION
 {
     NONE                = 0,
-
     UP                  = 1,
-    UP_DOWN             = 1 | 2,
-    UP_DOWN_LEFT        = 1 | 2 | 4,
-    UP_DOWN_RIGHT       = 1 | 2 | 8,
-    UP_DOWN_LEFT_RIGHT  = 1 | 2 | 4 | 8,
-    UP_LEFT             = 1 | 4,
-    UP_LEFT_RIGHT       = 1 | 4 | 8,
-    UP_RIGHT            = 1 | 8,
-
     DOWN                = 2,
-    DOWN_LEFT           = 2 | 4,
-    DOWN_RIGHT          = 2 | 8,
-    DOWN_LEFT_RIGHT     = 2 | 4 | 8,
-
     LEFT                = 4,
-    LEFT_RIGHT          = 4 | 8,
+    RIGHT               = 8,
 
-    RIGHT               = 8
+    UP_DOWN             = UP | DOWN,
+    UP_DOWN_LEFT        = UP | DOWN | LEFT,
+    UP_DOWN_RIGHT       = UP | DOWN | RIGHT,
+    UP_DOWN_LEFT_RIGHT  = UP | DOWN | LEFT | RIGHT,
+    UP_LEFT             = UP | LEFT,
+    UP_LEFT_RIGHT       = UP | LEFT | RIGHT,
+    UP_RIGHT            = UP | RIGHT,
+
+    DOWN_LEFT           = DOWN | LEFT,
+    DOWN_RIGHT          = DOWN | RIGHT,
+    DOWN_LEFT_RIGHT     = DOWN | LEFT | RIGHT,
+
+    LEFT_RIGHT          = LEFT | RIGHT
 };
 
 public static class NodeOps
@@ -44,7 +43,7 @@ public static class NodeOps
     /// <returns></returns>
     public static bool CheckFlag(this NODE_DIRECTION node, NODE_DIRECTION other)
     {
-        return node == NODE_DIRECTION.NONE && other == NODE_DIRECTION.NONE || (node & other) != NODE_DIRECTION.NONE;
+        return node == NODE_DIRECTION.NONE && other == NODE_DIRECTION.NONE || (node & other) != 0;
     }
 
     /// <summary>
@@ -54,7 +53,7 @@ public static class NodeOps
     /// <returns></returns>
     public static NODE_DIRECTION GetPathEntrancesAndExits(this Node node)
     {
-        return node.In | node.Out;
+        return node.InDirection | node.OutDirection;
     }
 
     /// <summary>
@@ -70,4 +69,62 @@ public static class NodeOps
 
         return entrancesAndExits;
     }
+
+    /// <summary>
+    /// Break a multi-direction into individual NODE_DIRECTIONs.
+    /// </summary>
+    /// <param name="multiDirection"></param>
+    /// <returns></returns>
+    public static IEnumerable<NODE_DIRECTION> GetDirections(this NODE_DIRECTION multiDirection)
+    {
+        NODE_DIRECTION[] basicDirectionSet = { NODE_DIRECTION.UP, NODE_DIRECTION.DOWN, NODE_DIRECTION.LEFT, NODE_DIRECTION.RIGHT };
+
+        foreach(NODE_DIRECTION direction in basicDirectionSet)
+        {
+            if (multiDirection.CheckFlag(direction))
+            {
+                yield return direction;
+            }
+        }
+
+        yield break;
+    }
+
+    /// <summary>
+    /// Test a direction to see if it is a multi-direction or not.
+    /// </summary>
+    /// <param name="d"></param>
+    /// <returns></returns>
+    public static bool IsMulti(this NODE_DIRECTION d)
+    {
+        return !(
+            d == NODE_DIRECTION.NONE ||
+            d == NODE_DIRECTION.UP ||
+            d == NODE_DIRECTION.DOWN ||
+            d == NODE_DIRECTION.LEFT ||
+            d == NODE_DIRECTION.RIGHT);
+    }
+}
+
+/// <summary>
+/// The type of direction exception.
+/// There should only be two.
+/// </summary>
+public enum DIRECTION_EXCEPTION_TYPE
+{
+    MULTI_RESTRICTED,
+    SINGLE_RESTRICTED
+}
+
+/// <summary>
+/// An exception based on weather or not we expect or allow multi-direction NODE_DIRECTIONS.
+/// </summary>
+public class DirectionException : Exception
+{
+    public DirectionException(DIRECTION_EXCEPTION_TYPE type) : base(
+        type == DIRECTION_EXCEPTION_TYPE.MULTI_RESTRICTED ?
+        "Multi-direction expected. Found NONE or single-direction instead." :
+        "Single-direction expected. Found multi-direction instead."
+        )
+    { }
 }

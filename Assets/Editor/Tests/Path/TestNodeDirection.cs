@@ -4,6 +4,7 @@ using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class TestNodeDirection {
 
@@ -40,17 +41,60 @@ public class TestNodeDirection {
     [Test]
     public void Test_PathEntrancesAndExits_Node()
     {
-        Node n = new Node(NODE_DIRECTION.UP, NODE_DIRECTION.DOWN);
-        Assert.AreEqual(NODE_DIRECTION.UP_DOWN, n.GetPathEntrancesAndExits());
+        Node A = new Node(2, 2);
+        Node B = new Node(2, 3);
+        Node C = new Node(2, 1);
+
+        A.InNode = B;
+        A.OutNode = C;
+
+        Assert.AreEqual(NODE_DIRECTION.UP_DOWN, A.GetPathEntrancesAndExits());
     }
 
     [Test]
     public void Test_PathEntrancesAndExits_NodeList()
     {
-        List<Node> nl = new List<Node>();
-        nl.Add(new Node(NODE_DIRECTION.UP, NODE_DIRECTION.UP));
-        nl.Add(new Node(NODE_DIRECTION.UP, NODE_DIRECTION.DOWN));
-        nl.Add(new Node(NODE_DIRECTION.UP, NODE_DIRECTION.LEFT));
+        Node A = new Node(2, 2);
+        Node B = new Node(2, 3);
+        Node C = new Node(2, 1);
+        A.InNode = B;
+        A.OutNode = C;
+
+        Node D = new Node(2, 2);
+        Node E = new Node(2, 3);
+        Node F = new Node(1, 2);
+        D.InNode = E;
+        D.OutNode = F;
+
+        Node G = new Node(2, 2);
+        Node H = new Node(2, 1);
+        Node I = new Node(2, 3);
+        G.InNode = H;
+        G.OutNode = I;
+
+        List<Node> nl = new List<Node>() { A, D, G };
+
         Assert.AreEqual(NODE_DIRECTION.UP_DOWN_LEFT, nl.GetPathEntrancesAndExits());
+    }
+
+    [Test]
+    public void Test_GetDirections()
+    {
+        NODE_DIRECTION[] da = NODE_DIRECTION.DOWN_LEFT_RIGHT.GetDirections().ToArray();
+        NODE_DIRECTION[] ex = { NODE_DIRECTION.DOWN, NODE_DIRECTION.LEFT, NODE_DIRECTION.RIGHT };
+
+        Assert.AreEqual(ex, da);
+    }
+
+    [Test]
+    public void Test_IsMulti_True()
+    {
+        Assert.IsTrue(NODE_DIRECTION.DOWN_LEFT_RIGHT.IsMulti());
+    }
+
+    [Test]
+    public void Test_IsMulti_False()
+    {
+        Assert.IsFalse(NODE_DIRECTION.DOWN.IsMulti());
     }
 }
