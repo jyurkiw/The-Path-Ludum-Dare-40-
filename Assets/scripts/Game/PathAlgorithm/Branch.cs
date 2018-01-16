@@ -12,6 +12,11 @@ public class Branch
     public int ID { get; private set; }
 
     /// <summary>
+    /// The parent Path object.
+    /// </summary>
+    public Path Parent { get; private set; }
+
+    /// <summary>
     /// The node this branch leads out towards the origin.
     /// OutNode is not a part of this branch.
     /// </summary>
@@ -20,34 +25,47 @@ public class Branch
     /// <summary>
     /// The first node in the branch. This node IS a part of this branch.
     /// </summary>
-    public Node InNode { get; set; }
+    public Node InNode { get; private set; }
 
     /// <summary>
     /// Is this branch open to adding more nodes?
     /// </summary>
     public bool Open { get; private set; }
 
-    /// <summary>
-    /// The first node of a branch that is built (InNode is the first node of minion traversal. _outNode is the first node built by the path algorithm).
-    /// _outnode is a part of this branch.
-    /// </summary>
-    protected Node _buildStartNode;
+    public Node this[int x, int y]
+    {
+        get
+        {
+            Vector2Int key = new Vector2Int(x, y);
+            if (_nodeDirectory.ContainsKey(key))
+                return _nodeDirectory[key];
+            else return null;
+        }
+    }
 
-    /// <summary>
-    /// The current node of the build process.
-    /// </summary>
-    protected Node currentNode;
+    protected Dictionary<Vector2Int, Node> _nodeDirectory;
 
-    public Branch(int id, Node outNode, NODE_DIRECTION direction)
+    public Branch(int id, Node outNode, NODE_DIRECTION direction, Path parent = null)
     {
         ID = id;
+        Parent = parent;
         OutNode = outNode;
 
         Vector2Int initLoc = outNode.Next(direction);
-        _buildStartNode = new Node(initLoc.x, initLoc.y);
+        InNode = new Node(initLoc.x, initLoc.y, this);
 
-        currentNode = _buildStartNode;
+        _nodeDirectory = new Dictionary<Vector2Int, Node>();
+        _nodeDirectory.Add(InNode.VectorLocation, InNode);
+
         Open = true;
+    }
+
+    /// <summary>
+    /// Get the node count of this branch.
+    /// </summary>
+    public int Count
+    {
+        get { return _nodeDirectory.Keys.Count; }
     }
 
     /// <summary>
@@ -65,17 +83,20 @@ public class Branch
             {
                 // close the branch
                 Open = false;
-                InNode = currentNode;
-
+                InNode.InDirection = direction;
                 return direction.GetDirections().ToArray();
             }
             else
             {
-                Vector2Int newLocation = currentNode.Next(direction);
-                Node nextNode = new Node(newLocation.x, newLocation.y);
-                currentNode.InNode = nextNode;
-                nextNode.OutNode = currentNode;
-                currentNode = nextNode;
+                Vector2Int newLocation = InNode.Next(direction);
+                Node nextNode = new Node(newLocation.x, newLocation.y, this);
+                InNode.InNode = nextNode;
+                nextNode.OutNode = InNode;
+                InNode = nextNode;
+                _nodeDirectory.Add(nextNode.VectorLocation, nextNode);
+
+                if (Parent != null)
+                    Parent.SetNodeDirectoryData(nextNode);
 
                 return new NODE_DIRECTION[] { direction };
             }
@@ -116,36 +137,11 @@ public class BranchException : Exception
 
 public class Branch_Test : Branch
 {
-    /// <summary>
-    /// The first node of a branch that is built (InNode is the first node of minion traversal. _outNode is the first node built by the path algorithm).
-    /// _outnode is a part of this branch.
-    /// </summary>
-    public new Node _buildStartNode
+    public new Dictionary<Vector2Int, Node> _nodeDirectory
     {
         get
         {
-            return base._buildStartNode;
-        }
-
-        set
-        {
-            base._buildStartNode = value;
-        }
-    }
-
-    /// <summary>
-    /// The current node of the build process.
-    /// </summary>
-    public new Node currentNode
-    {
-        get
-        {
-            return base.currentNode;
-        }
-
-        set
-        {
-            base.currentNode = value;
+            return base._nodeDirectory;
         }
     }
 

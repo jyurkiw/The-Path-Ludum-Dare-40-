@@ -61,7 +61,7 @@ public static class NodeOps
     /// </summary>
     /// <param name="nodeList"></param>
     /// <returns></returns>
-    public static NODE_DIRECTION GetPathEntrancesAndExits(this List<Node> nodeList)
+    public static NODE_DIRECTION GetPathEntrancesAndExits(this Node[] nodeList)
     {
         NODE_DIRECTION entrancesAndExits = NODE_DIRECTION.NONE;
         foreach (Node node in nodeList)

@@ -14,6 +14,8 @@ public class Node
     public int XLocation;
     public int YLocation;
 
+    public Branch Parent { get; private set; }
+
     /// <summary>
     /// Turn the node's X and Y location into a Vector2Int.
     /// </summary>
@@ -119,8 +121,18 @@ public class Node
         XLocation = X;
         YLocation = Y;
 
-        this.InDirection = NODE_DIRECTION.NONE;
-        this.OutDirection = NODE_DIRECTION.NONE;
+        InDirection = NODE_DIRECTION.NONE;
+        OutDirection = NODE_DIRECTION.NONE;
+    }
+
+    public Node(int X, int Y, Branch Parent)
+    {
+        XLocation = X;
+        YLocation = Y;
+        this.Parent = Parent;
+
+        InDirection = NODE_DIRECTION.NONE;
+        OutDirection = NODE_DIRECTION.NONE;
     }
 
     /// <summary>

@@ -72,7 +72,7 @@ public class TestNodeDirection {
         G.InNode = H;
         G.OutNode = I;
 
-        List<Node> nl = new List<Node>() { A, D, G };
+        Node[] nl = { A, D, G };
 
         Assert.AreEqual(NODE_DIRECTION.UP_DOWN_LEFT, nl.GetPathEntrancesAndExits());
     }

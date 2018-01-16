@@ -15,6 +15,25 @@ public class TestBranch {
     }
 
     [Test]
+    public void Test_Branch_Constructor_NodeDirectory()
+    {
+        Node o = new Node(2, 2);
+        Branch_Test b = new Branch_Test(1, o, NODE_DIRECTION.UP);
+
+        Assert.That(b._nodeDirectory, !Contains.Key(o.VectorLocation));
+    }
+
+    [Test]
+    public void Test_Branch_Constructor_NodeDirectory_InitialNode()
+    {
+        Node o = new Node(2, 2);
+        NODE_DIRECTION branchDir = NODE_DIRECTION.RIGHT;
+        Branch_Test b = new Branch_Test(1, o, branchDir);
+
+        Assert.That(b._nodeDirectory, Contains.Key(o.Next(branchDir)));
+    }
+
+    [Test]
 	public void Test_BranchAdd_Single()
     {
         Node o = new Node(2, 2);
@@ -23,7 +42,7 @@ public class TestBranch {
         b.Add(NODE_DIRECTION.UP);
         
         Vector2Int ex = new Vector2Int(2, 4);
-        Vector2Int act = b.currentNode.VectorLocation;
+        Vector2Int act = b.InNode.VectorLocation;
 
         Assert.That(act, Is.EqualTo(ex));
 	}
