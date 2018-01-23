@@ -73,7 +73,16 @@ public class TestPath {
             }
         }
 
-        Assert.That(path.GetNodesAt(2, 3).ToArray().Length, Is.EqualTo(initDir.GetDirections().ToArray().Length));
+        Assert.That(path.GetNodesAt(2, 3).Length, Is.EqualTo(initDir.GetDirections().ToArray().Length));
+    }
+
+    [Test]
+    public void Test_Path_GetNodesAt_NoNodeExists()
+    {
+        NODE_DIRECTION initDir = NODE_DIRECTION.UP;
+        Path path = new Path(origin, initDir);
+
+        Assert.That(path.GetNodesAt(0, 0).Length, Is.EqualTo(0));
     }
 
     [Test]

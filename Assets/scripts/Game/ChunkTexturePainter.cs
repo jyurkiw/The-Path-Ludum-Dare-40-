@@ -49,22 +49,22 @@ public static class ChunkTexturePainter
     /// <returns></returns>
     public static void PaintChunkTextureImmediately(TerrainChunk chunk)
     {
-        Texture2D chunkTexture = ChunkTextureFactory();
-        List<string> chunkMap = GameUtils.MapFromBlueprint(chunk.ChunkMap);
+        //Texture2D chunkTexture = ChunkTextureFactory();
+        //List<string> chunkMap = GameUtils.MapFromBlueprint(chunk.ChunkMap);
 
-        for (int row = 0; row < GameGlobals.CHUNK_SIZE; row++)
-        {
-            for (int col = 0; col < GameGlobals.CHUNK_SIZE; col++)
-            {
-                string tileCode = GetTileCode(row, col, chunkMap);
-                Assert.IsTrue(TEXTURE_MAP.ContainsKey(tileCode), string.Format("{0} was not in the dict", tileCode));
-                Texture2D tileTexture = TEXTURE_MAP[tileCode];
-                CopyTileToChunk(ref chunkTexture, tileTexture, row, col);
-            }
-        }
+        //for (int row = 0; row < GameGlobals.CHUNK_SIZE; row++)
+        //{
+        //    for (int col = 0; col < GameGlobals.CHUNK_SIZE; col++)
+        //    {
+        //        string tileCode = GetTileCode(row, col, chunkMap);
+        //        Assert.IsTrue(TEXTURE_MAP.ContainsKey(tileCode), string.Format("{0} was not in the dict", tileCode));
+        //        Texture2D tileTexture = TEXTURE_MAP[tileCode];
+        //        CopyTileToChunk(ref chunkTexture, tileTexture, row, col);
+        //    }
+        //}
 
-        chunkTexture.Apply();
-        chunk.Renderer.material.mainTexture = chunkTexture;
+        //chunkTexture.Apply();
+        //chunk.Renderer.material.mainTexture = chunkTexture;
     }
 
     /// <summary>
@@ -74,7 +74,6 @@ public static class ChunkTexturePainter
     /// <param name="tileTexture"></param>
     /// <param name="row"></param>
     /// <param name="col"></param>
-    //public static void CopyTileToChunk(ref Color[] chunkTextureData, Texture2D tileTexture, int row, int col)
     public static void CopyTileToChunk(ref Texture2D destTexture, Texture2D tileTexture, int row, int col)
     {
         Color[] chunkTextureData = new Color[tileTexture.width * tileTexture.height];

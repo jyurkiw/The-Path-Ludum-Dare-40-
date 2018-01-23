@@ -53,6 +53,7 @@ public class Branch
 
         Vector2Int initLoc = outNode.Next(direction);
         InNode = new Node(initLoc.x, initLoc.y, this);
+        InNode.OutNode = OutNode;
 
         _nodeDirectory = new Dictionary<Vector2Int, Node>();
         _nodeDirectory.Add(InNode.VectorLocation, InNode);

@@ -9,8 +9,15 @@ public class BackgroundTexturePainter : MonoBehaviour
     private bool IsPainterReady = true;
     private TerrainChunk chunkOnEasel = null;
 
+    private PathBuilder _pathBuilder = null;
+
+    public void Start()
+    {
+        _pathBuilder = GetComponent<PathBuilder>();
+    }
+
     /// <summary>
-    /// 
+    /// Painting starts here.
     /// </summary>
     private void Update()
     {
@@ -40,16 +47,26 @@ public class BackgroundTexturePainter : MonoBehaviour
     public IEnumerator PaintChunkTexture(string chunkBlueprint)
     {
         Texture2D chunkTexture = ChunkTexturePainter.ChunkTextureFactory();
-        List<string> chunkMap = GameUtils.MapFromBlueprint(chunkBlueprint);
 
         for (int row = 0; row < GameGlobals.CHUNK_SIZE; row++)
         {
             for (int col = 0; col < GameGlobals.CHUNK_SIZE; col++)
             {
-                string tileCode = ChunkTexturePainter.GetTileCode(row, col, chunkMap);
+                // row + 1 offset note
+                // row is being offset here to make up for the necessary offset we are passing to CopyTileToChunk.
+                // Without it everything is drawn 1 space off.
+                string tileCode = _pathBuilder._path.GetNodesAt(col, row + 1).GetPathEntrancesAndExits().ToString();
+
                 Assert.IsTrue(ChunkTexturePainter.TEXTURE_MAP.ContainsKey(tileCode), string.Format("{0} was not in the dict", tileCode));
                 Texture2D tileTexture = ChunkTexturePainter.TEXTURE_MAP[tileCode];
-                ChunkTexturePainter.CopyTileToChunk(ref chunkTexture, tileTexture, row, col);
+
+                // CHUNK_SIZE - row - 1 offset note
+                // row is being offset twice. The first flips the orientation of the Y axis because while we are using standard cartesian coordinates,
+                // textures are drawn from the top-left to the bottom-right of the texture in a similar manner to screen consoles and 2d texture maps.
+                // Considering a texture IS a 2d texture, this is hardly surprising. Therefore, we must flip the Y axis or else everything is drawn
+                // upside-down. The additonal -1 is the array offset. Otherwise we start by trying to write to row CHUNK_SIZE when the last writable
+                // row is actually CHUNK_SIZE - 1.
+                ChunkTexturePainter.CopyTileToChunk(ref chunkTexture, tileTexture, GameGlobals.CHUNK_SIZE - row - 1, col);
 
                 if (col % (int)(GameGlobals.CHUNK_SIZE / GameGlobals.TERRAIN_YIELD_THRESHOLD) == 0)
                 {
@@ -57,7 +74,7 @@ public class BackgroundTexturePainter : MonoBehaviour
                 }
             }
         }
-        
+
         chunkTexture.Apply();
         chunkOnEasel.Renderer.material.mainTexture = chunkTexture;
         IsPainterReady = true;

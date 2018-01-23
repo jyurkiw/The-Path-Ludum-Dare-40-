@@ -66,7 +66,8 @@ public class Path
     /// <returns></returns>
     public Node[] GetNodesAt(int X, int Y)
     {
-        return _nodeDirectory[new Vector2Int(X, Y)].ToArray();
+        Vector2Int key = new Vector2Int(X, Y);
+        return _nodeDirectory.ContainsKey(key) ? _nodeDirectory[key].ToArray() : new Node[] { };
     }
 
     /// <summary>

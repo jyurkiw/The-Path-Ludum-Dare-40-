@@ -36,7 +36,7 @@ public static class GameUtils {
 
         return new List<string>(prefabTextAsset.text.Split('\n'))
             .Select(l => new PrefabEntry(l))
-            .ToDictionary(k => k.Name, v => Resources.Load<GameObject>(v.Path));
+            .ToDictionary(k => k.Code, v => Resources.Load<GameObject>(v.Path));
     }
 
     public static Dictionary<string, Texture2D> LoadResourceTextures(string filename)
@@ -44,8 +44,9 @@ public static class GameUtils {
         TextAsset prefabTextAsset = Resources.Load(filename) as TextAsset;
 
         return new List<string>(prefabTextAsset.text.Split('\n'))
+            .Where(l=>l[0] != '#')
             .Select(l => new PrefabEntry(l))
-            .ToDictionary(k => k.Name, v => Resources.Load<Texture2D>(v.Path));
+            .ToDictionary(k => k.Code, v => Resources.Load<Texture2D>(v.Path));
     }
 
     /// <summary>
@@ -56,24 +57,14 @@ public static class GameUtils {
     private class PrefabEntry
     {
         public string Path { get; private set; }
-        public string Name { get; private set; }
+        public string Code { get; private set; }
 
         public PrefabEntry(string line)
         {
             int space = line.IndexOf(' ');
             Path = line.Substring(0, space).Trim();
-            Name = line.Substring(space).Trim();
+            Code = line.Substring(space).Trim();
         }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="blueprint"></param>
-    /// <returns></returns>
-    public static List<string> MapFromBlueprint(string blueprint)
-    {
-        return new List<string>(blueprint.Split('\n').Select(x => x.TrimEnd()));
     }
 }
 
