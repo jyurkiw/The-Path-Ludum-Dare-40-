@@ -21,12 +21,11 @@ public class ChunkManager : MonoBehaviour {
 	// Use this for initialization
 	public void Start () {
         _backgroundTexturePainter = GetComponent<BackgroundTexturePainter>();
-        testData = Resources.Load<TextAsset>("chunks").text;
 
-        //// Load the chunk prefab
+        // Load the chunk prefab
         _chunkPrefab = Resources.Load<GameObject>(GameGlobals.CHUNK_PLANE_PREFAB_RESOURCE_NAME);
 
-        //// Init the first chunk
+        // Init the first chunk
         //TerrainChunk initialChunk = AddNewChunkAt(Vector2Int.zero);
         //AddNewChunkAt(Vector2Int.zero);
 
