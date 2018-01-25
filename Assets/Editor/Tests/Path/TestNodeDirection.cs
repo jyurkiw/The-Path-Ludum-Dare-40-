@@ -97,4 +97,13 @@ public class TestNodeDirection {
     {
         Assert.IsFalse(NODE_DIRECTION.DOWN.IsMulti());
     }
+
+    [Test]
+    public void Test_VerifyFlagEnumFunc()
+    {
+        NODE_DIRECTION testDir = NODE_DIRECTION.UP;
+        testDir |= NODE_DIRECTION.LEFT;
+
+        Assert.That(testDir, Is.EqualTo(NODE_DIRECTION.UP_LEFT));
+    }
 }

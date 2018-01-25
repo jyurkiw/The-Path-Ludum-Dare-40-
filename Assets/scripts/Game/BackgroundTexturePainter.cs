@@ -52,10 +52,7 @@ public class BackgroundTexturePainter : MonoBehaviour
         {
             for (int col = 0; col < GameGlobals.CHUNK_SIZE; col++)
             {
-                // row + 1 offset note
-                // row is being offset here to make up for the necessary offset we are passing to CopyTileToChunk.
-                // Without it everything is drawn 1 space off.
-                string tileCode = _pathBuilder._path.GetNodesAt(col, row + 1).GetPathEntrancesAndExits().ToString();
+                string tileCode = _pathBuilder._path.GetNodesAt(col, row).GetPathEntrancesAndExits().ToString();
 
                 Assert.IsTrue(ChunkTexturePainter.TEXTURE_MAP.ContainsKey(tileCode), string.Format("{0} was not in the dict", tileCode));
                 Texture2D tileTexture = ChunkTexturePainter.TEXTURE_MAP[tileCode];

@@ -31,6 +31,9 @@ public class Path
         _nodeDirectory = new Dictionary<Vector2Int, List<Node>>();
         SetNodeDirectoryData(Origin);
 
+        // Set in-direction of the Origin
+        Origin.InDirection = initialDirections;
+
         // Create initial outer branches
         foreach (NODE_DIRECTION direction in initialDirections.GetDirections())
         {
