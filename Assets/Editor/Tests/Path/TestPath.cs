@@ -151,4 +151,28 @@ public class TestPath {
 
         Assert.That(path.OuterBranchIDs, !Contains.Item(initBranchId));
     }
+
+    [Test]
+    public void Test_Path_Branch_WalkBackThroughNodesOnly()
+    {
+        // build a short path (one step up)
+        Path path = new Path(origin, NODE_DIRECTION.UP);
+
+        // now branch left
+        int initBranchId = path.OuterBranchIDs[0];
+        Branch initBranch = path.Branches[initBranchId];
+        initBranch.Add(NODE_DIRECTION.UP_LEFT);
+
+        path.Branch(initBranchId);
+
+        Node outerNode = path.Branches.Where(x => x.Value.InNode.OutDirection == NODE_DIRECTION.RIGHT).Select(x => x.Value.InNode).First();
+
+        // Should be the node up from the origin.
+        Node trackNode = outerNode.OutNode;
+
+        // Should be the origin.
+        trackNode = trackNode.OutNode;
+
+        Assert.That(trackNode.VectorLocation, Is.EqualTo(origin.VectorLocation));
+    }
 }
