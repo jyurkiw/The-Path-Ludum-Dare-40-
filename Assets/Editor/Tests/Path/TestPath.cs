@@ -175,4 +175,14 @@ public class TestPath {
 
         Assert.That(trackNode.VectorLocation, Is.EqualTo(origin.VectorLocation));
     }
+
+    [Test]
+    public void Test_Path_OriginNodeShouldBeUDLR()
+    {
+        Path path = new Path(origin, NODE_DIRECTION.UP_DOWN_LEFT_RIGHT);
+
+        NODE_DIRECTION originDirection = path.GetNodesAt(2, 2).First().InDirection;
+
+        Assert.That(originDirection, Is.EqualTo(NODE_DIRECTION.UP_DOWN_LEFT_RIGHT));
+    }
 }

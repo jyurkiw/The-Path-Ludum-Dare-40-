@@ -728,8 +728,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11ce01038329ec54aa8d2516f36ee341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitXWidth: 16
-  InitYWidth: 16
+  InitXWidth: 12
+  InitYWidth: 12
   InitDirection: 15
   Origin: {x: 16, y: 16}
 --- !u!1 &1413826145
