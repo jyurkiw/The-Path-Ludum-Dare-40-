@@ -93,6 +93,17 @@ public static class Extensions
     }
 
     /// <summary>
+    /// Change a Vector 3 to an integer vector 2.
+    /// This rounds all float values before casting floats to ints and discards the y value (z becomes y).
+    /// </summary>
+    /// <param name="vec"></param>
+    /// <returns></returns>
+    public static Vector2Int RoundToVector2Int(this Vector3 vec)
+    {
+        return new Vector2Int((int)Mathf.Round(vec.x), (int)Mathf.Round(vec.z));
+    }
+
+    /// <summary>
     /// Change a vector 2 int to a vector3.
     /// x => x
     /// y = 0
@@ -104,5 +115,17 @@ public static class Extensions
     public static Vector3 ToVector3(this Vector2Int vec)
     {
         return new Vector3(vec.x, 0, vec.y);
+    }
+
+    /// <summary>
+    /// Change a vector 3 int to a vector 2 int.
+    /// x => x
+    /// z => y
+    /// </summary>
+    /// <param name="vec"></param>
+    /// <returns></returns>
+    public static Vector2Int ToVector2Int(this Vector3Int vec)
+    {
+        return new Vector2Int(vec.x, vec.z);
     }
 }

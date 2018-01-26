@@ -20,8 +20,8 @@ public class MovementController : MonoBehaviour
     public Node Location { get; set; }
     public bool Active { get; private set; }
 
-    public float MoveInterval { get; set; }
-    public float TurnInterval { get; set; }
+    public float MoveInterval;
+    public float TurnInterval;
 
 	// Use this for initialization
 	public void Start ()
@@ -48,11 +48,15 @@ public class MovementController : MonoBehaviour
     /// <param name="location"></param>
     public void Activate(Node location)
     {
+        Location = location;
+
         float minionRot = LEFT_ROT;
 
         // Get Direction
         switch(location.OutDirection)
         {
+            case NODE_DIRECTION.LEFT:
+                break;
             case NODE_DIRECTION.UP:
                 minionRot = UP_ROT;
                 break;
@@ -67,6 +71,7 @@ public class MovementController : MonoBehaviour
         }
 
         transform.SetPositionAndRotation(location.VectorLocation.ToVector3(), Quaternion.Euler(0, minionRot, 0));
+        Active = true;
     }
 }
 

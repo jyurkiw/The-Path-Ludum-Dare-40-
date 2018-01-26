@@ -54,6 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4600237396877244}
   - component: {fileID: 95128750570641102}
+  - component: {fileID: 114283594709071964}
   m_Layer: 0
   m_Name: enemy
   m_TagString: Untagged
@@ -98,7 +99,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1833057975315380}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 15.806265, y: 17.603168, z: 5.8236523}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4983188437972442}
@@ -273,3 +274,14 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114283594709071964
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1833057975315380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d21bc85c8f9865b4da3bd879695f2886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
