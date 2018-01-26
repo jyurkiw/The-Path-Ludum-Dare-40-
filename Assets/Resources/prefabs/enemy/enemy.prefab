@@ -285,3 +285,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d21bc85c8f9865b4da3bd879695f2886, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MoveInterval: 1
+  TurnInterval: 1

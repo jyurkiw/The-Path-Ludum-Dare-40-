@@ -27,6 +27,7 @@ public class TestMinionMovement
 
         MovementController minion = GameObject.Instantiate<MovementController>(Resources.Load<MovementController>("prefabs/enemy/enemy"));
         minion.Activate(startNode);
+        minion.ID = 3445;
 
         float travelDuration = minion.MoveInterval * Node.GetDistanceToOrigin(startNode) + 1f;
 

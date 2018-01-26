@@ -12,29 +12,51 @@ using UnityEngine;
 /// </summary>
 public class MovementController : MonoBehaviour
 {
+    public int ID = 0;
     public const float LEFT_ROT = 0;
     public const float UP_ROT = 90f;
     public const float RIGHT_ROT = 180f;
     public const float DOWN_ROT = 270f;
 
     public Node Location { get; set; }
-    public bool Active { get; private set; }
+    private bool _active = false;
+    public bool Active
+    {
+        get { return _active; }
+        private set { _active = value; }
+    }
 
     public float MoveInterval;
     public float TurnInterval;
 
-	// Use this for initialization
-	public void Start ()
-    {
-        Active = false;
-	}
+    private float currentInterval;
 	
 	// Update is called once per frame
 	public void Update ()
     {
         if (Active)
         {
+            currentInterval += Time.deltaTime;
 
+            // We're at or past the beginning of the next node.
+            if (currentInterval > MoveInterval)
+            {
+                currentInterval -= MoveInterval;
+                Location = Location.OutNode;
+            }
+
+            // Figure out the proper minion location based on the movement interval and handle arriving at the origin
+            if (Location.OutNode != null)
+            {
+                Vector3 lerpedLocation = Vector3.Lerp(Location.VectorLocation.ToVector3(), Location.OutNode.VectorLocation.ToVector3(), currentInterval);
+                Quaternion currentRotation = transform.rotation;
+
+                transform.SetPositionAndRotation(lerpedLocation, currentRotation);
+            }
+            else
+            {
+                Active = false;
+            }
         }
 	}
 
