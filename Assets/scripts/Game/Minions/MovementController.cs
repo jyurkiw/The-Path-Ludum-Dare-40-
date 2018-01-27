@@ -12,7 +12,6 @@ using UnityEngine;
 /// </summary>
 public class MovementController : MonoBehaviour
 {
-    public int ID = 0;
     public const float LEFT_ROT = 0;
     public const float UP_ROT = 90f;
     public const float RIGHT_ROT = 180f;
