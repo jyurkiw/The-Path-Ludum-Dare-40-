@@ -187,5 +187,24 @@ public class Node
 
         return location;
     }
+
+    /// <summary>
+    /// Count the aproximate node distance from the passed node to the origin.
+    /// This count is accurate if and only if the passed node is a branch's InNode.
+    /// This method runs in O(n) efficiency.
+    /// </summary>
+    /// <param name="node"></param>
+    /// <returns></returns>
+    public static int GetDistanceToOrigin(Node node)
+    {
+        int count = 0;
+        while (node.Parent != null)
+        {
+            count += node.Parent.Count;
+            node = node.Parent.OutNode;
+        }
+
+        return count;
+    }
 }
 
