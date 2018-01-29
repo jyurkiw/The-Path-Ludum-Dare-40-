@@ -29,6 +29,9 @@ public class MovementController : MonoBehaviour
     public float TurnInterval;
 
     private float currentInterval;
+    private NODE_DIRECTION facing;
+    private bool turning = false;
+    private Transform modelTransform;
 	
 	// Update is called once per frame
 	public void Update ()
@@ -38,19 +41,36 @@ public class MovementController : MonoBehaviour
             currentInterval += Time.deltaTime;
 
             // We're at or past the beginning of the next node.
-            if (currentInterval > MoveInterval)
+            if (currentInterval > MoveInterval && !turning)
             {
                 currentInterval -= MoveInterval;
                 Location = Location.OutNode;
+
+                // Detect turning
+                if (Location.OutNode != null && Location.OutDirection != facing)
+                    turning = true;
+            }
+            else if (currentInterval > TurnInterval && turning)
+            {
+                currentInterval -= TurnInterval;
+                facing = Location.OutDirection;
+                turning = false;
             }
 
             // Figure out the proper minion location based on the movement interval and handle arriving at the origin
-            if (Location.OutNode != null)
+            if (!turning && Location.OutNode != null)
             {
                 Vector3 lerpedLocation = Vector3.Lerp(Location.VectorLocation.ToVector3(), Location.OutNode.VectorLocation.ToVector3(), currentInterval);
                 Quaternion currentRotation = transform.rotation;
 
                 transform.SetPositionAndRotation(lerpedLocation, currentRotation);
+            }
+            else if (turning)
+            {
+                Vector3 location = Location.VectorLocation.ToVector3();
+                float rotation = Mathf.LerpAngle(GetDirectionRotation(facing), GetDirectionRotation(Location.OutDirection), currentInterval);
+
+                modelTransform.localRotation = Quaternion.Euler(0, rotation, 0);
             }
             else
             {
@@ -70,35 +90,44 @@ public class MovementController : MonoBehaviour
     public void Activate(Node location)
     {
         Location = location;
+        float minionRot = GetDirectionRotation(location.OutDirection);
 
-        float minionRot = LEFT_ROT;
+        transform.SetPositionAndRotation(location.VectorLocation.ToVector3(), Quaternion.Euler(0, 0, 0));
+        modelTransform = transform.GetChild(0);
+        modelTransform.localRotation = Quaternion.Euler(0, minionRot, 0);
 
+        facing = location.OutDirection;
+        
+        Active = true;
+    }
+
+    /// <summary>
+    /// Get the rotation mapping to the passed direction.
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <returns></returns>
+    public static float GetDirectionRotation(NODE_DIRECTION direction)
+    {
         // Get Direction
-        switch(location.OutDirection)
+        switch (direction)
         {
             case NODE_DIRECTION.LEFT:
-                break;
+                return LEFT_ROT;
             case NODE_DIRECTION.UP:
-                minionRot = UP_ROT;
-                break;
+                return UP_ROT;
             case NODE_DIRECTION.RIGHT:
-                minionRot = RIGHT_ROT;
-                break;
+                return RIGHT_ROT;
             case NODE_DIRECTION.DOWN:
-                minionRot = DOWN_ROT;
-                break;
+                return DOWN_ROT;
             default:
-                throw new MovementControllerException(MOVEMENT_CONTROLLER_EXCEPTION_TYPES.BAD_ACTIVATION_DIRECTION);
+                throw new MovementControllerException(MOVEMENT_CONTROLLER_EXCEPTION_TYPES.BAD_ROTATION_DIRECTION);
         }
-
-        transform.SetPositionAndRotation(location.VectorLocation.ToVector3(), Quaternion.Euler(0, minionRot, 0));
-        Active = true;
     }
 }
 
 public enum MOVEMENT_CONTROLLER_EXCEPTION_TYPES
 {
-    BAD_ACTIVATION_DIRECTION
+    BAD_ROTATION_DIRECTION
 }
 
 public class MovementControllerException : Exception
@@ -107,8 +136,8 @@ public class MovementControllerException : Exception
     {
         switch (type)
         {
-            case MOVEMENT_CONTROLLER_EXCEPTION_TYPES.BAD_ACTIVATION_DIRECTION:
-                return "Found a node with a multi-direction out. That shouldn't happen yet.";
+            case MOVEMENT_CONTROLLER_EXCEPTION_TYPES.BAD_ROTATION_DIRECTION:
+                return "Multi-direction passed for rotation. That shouldn't happen.";
             default:
                 return string.Empty;
         }
