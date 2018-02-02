@@ -23,14 +23,12 @@ public class ProjectilePool : MonoBehaviour
             initialProjectile.InitProjectile(this);
             Projectiles.Push(initialProjectile);
 
-            initialProjectile.gameObject.SetActive(false);
-
             while (Projectiles.Count < InitialPoolSize)
             {
                 Projectile projectile = Instantiate<Projectile>(initialProjectile);
-                projectile.InitProjectile(this);
                 Projectiles.Push(projectile);
             }
+
         }
     }
 
@@ -40,6 +38,7 @@ public class ProjectilePool : MonoBehaviour
     /// <param name="projectile"></param>
     public void SetInactive(Projectile projectile)
     {
+        projectile.gameObject.SetActive(false);
         Projectiles.Push(projectile);
     }
 

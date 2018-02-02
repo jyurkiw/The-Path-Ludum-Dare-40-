@@ -8,18 +8,21 @@ public class Projectile : MonoBehaviour
     private Transform Target;
     private int damage;
 
-    public bool Moving = false;
-
     private ProjectilePool owningPool = null;
-	
-	// Update is called once per frame
-	void Update ()
+
+    public void Start()
     {
-		if (Moving && Target != null)
+        gameObject.SetActive(false);
+    }
+
+    // Update is called once per frame
+    public void Update ()
+    {
+		if (Target != null)
         {
             transform.position = Vector3.MoveTowards(transform.position, Target.position, velocity);
         }
-        else if (Moving && Target == null)
+        else if (Target == null)
         {
             gameObject.SetActive(false);
         }
@@ -36,13 +39,12 @@ public class Projectile : MonoBehaviour
 
     public void OnEnable()
     {
-        Moving = true;
+        
     }
 
     public void OnDisable()
     {
         CancelInvoke();
-        Moving = false;
         owningPool.SetInactive(this);
     }
 
@@ -53,7 +55,6 @@ public class Projectile : MonoBehaviour
         if (target != null)
         {
             target.DealDamage(damage);
-            gameObject.SetActive(false);
         }
     }
 

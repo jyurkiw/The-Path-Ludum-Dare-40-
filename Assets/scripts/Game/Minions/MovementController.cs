@@ -101,6 +101,11 @@ public class MovementController : MonoBehaviour
         Active = true;
     }
 
+    public void Deactivate()
+    {
+        Active = false;
+    }
+
     /// <summary>
     /// Get the rotation mapping to the passed direction.
     /// </summary>
