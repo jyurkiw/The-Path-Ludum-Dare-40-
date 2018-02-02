@@ -6,33 +6,55 @@ using UnityEngine;
 
 public class MinionPool
 {
-    public static MinionPool Instance { get; private set; }
+    private static MinionPool _instance;
+    public static MinionPool Instance
+    {
+        get
+        {
+            if (_instance == null) _instance = new MinionPool();
+            return _instance;
+        }
 
-    public Stack<Attackable> Minions;
+        private set
+        {
+            _instance = value;
+        }
+    }
+
+    public Stack<Minion> Minions;
 
     public MinionPool(int initialPoolSize = 50)
     {
-        Minions = new Stack<Attackable>();
+        Minions = new Stack<Minion>();
 
-        Attackable prototype = GameObject.Instantiate<Attackable>(Resources.Load<GameObject>("prefabs/enemy/enemy").GetComponentInChildren<Attackable>());
-        prototype.gameObject.SetActive(false);
-        prototype.SetPoolOwner(this);
+        Minion prototype = GameObject.Instantiate<Minion>(Resources.Load<Minion>("prefabs/enemy/enemy"));
+        prototype.InitInterfaces(this);
         Minions.Push(prototype);
 
+        int id = 0;
         while (Minions.Count < initialPoolSize)
         {
-            Attackable minion = GameObject.Instantiate<Attackable>(prototype);
+            id++;
+            Minion minion = GameObject.Instantiate<Minion>(prototype);
+            minion.ID = id;
+            
+            minion.InitInterfaces(this);
             Minions.Push(minion);
         }
     }
 
-    public void SetInactive(Attackable minion)
+    public void SetInactive(Minion minion)
     {
         Minions.Push(minion);
     }
 
-    public Attackable GetMinion()
+    public Minion GetMinion()
     {
         return Minions.Pop();
+    }
+
+    public static void Reset()
+    {
+        _instance = new MinionPool();
     }
 }

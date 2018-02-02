@@ -18,11 +18,11 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     public void Update ()
     {
-		if (Target != null)
+		if (Target != null && transform.position != Target.position)
         {
             transform.position = Vector3.MoveTowards(transform.position, Target.position, velocity);
         }
-        else if (Target == null)
+        else if (Target == null || transform.position == Target.position)
         {
             gameObject.SetActive(false);
         }
@@ -48,9 +48,9 @@ public class Projectile : MonoBehaviour
         owningPool.SetInactive(this);
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter(Collider other)
     {
-        Attackable target = collision.gameObject.GetComponentInChildren<Attackable>();
+        Minion target = other.gameObject.GetComponentInParent<Minion>();
 
         if (target != null)
         {

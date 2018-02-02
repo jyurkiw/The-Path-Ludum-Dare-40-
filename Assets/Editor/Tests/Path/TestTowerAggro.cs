@@ -10,18 +10,21 @@ public class TestTowerAggro
     [Test]
     public void Test_CompareDistance_NegOne()
     {
-        GameObject enemy = new GameObject();
-        Attackable enemyAttackable = enemy.AddComponent<Attackable>();
-        GameObject enemy2 = new GameObject();
-        Attackable enemyAttackable2 = enemy2.AddComponent<Attackable>();
+        MinionPool.Reset();
 
-        enemy.transform.SetPositionAndRotation(new Vector3(2, 0, 2), Quaternion.identity);
+        Minion enemy1 = MinionPool.Instance.GetMinion();
+        Minion enemy2 = MinionPool.Instance.GetMinion();
+
+        enemy1.gameObject.SetActive(true);
+        enemy2.gameObject.SetActive(true);
+
+        enemy1.transform.SetPositionAndRotation(new Vector3(2, 0, 2), Quaternion.identity);
         enemy2.transform.SetPositionAndRotation(new Vector3(4, 0, 4), Quaternion.identity);
 
         GameObject tower = new GameObject();
         TowerAggro towerAggro = tower.AddComponent<TowerAggro>();
 
-        int distanceSortValue = towerAggro.CompareDistances(enemyAttackable, enemyAttackable2);
+        int distanceSortValue = towerAggro.CompareDistances(enemy1, enemy2);
 
         Assert.That(distanceSortValue, Is.EqualTo(-1));
     }
@@ -29,18 +32,21 @@ public class TestTowerAggro
     [Test]
     public void Test_CompareDistance_Zero()
     {
-        GameObject enemy = new GameObject();
-        Attackable enemyAttackable = enemy.AddComponent<Attackable>();
-        GameObject enemy2 = new GameObject();
-        Attackable enemyAttackable2 = enemy.AddComponent<Attackable>();
+        MinionPool.Reset();
 
-        enemy.transform.SetPositionAndRotation(new Vector3(2, 0, 2), Quaternion.identity);
+        Minion enemy1 = MinionPool.Instance.GetMinion();
+        Minion enemy2 = MinionPool.Instance.GetMinion();
+
+        enemy1.gameObject.SetActive(true);
+        enemy2.gameObject.SetActive(true);
+
+        enemy1.transform.SetPositionAndRotation(new Vector3(2, 0, 2), Quaternion.identity);
         enemy2.transform.SetPositionAndRotation(new Vector3(2, 0, 2), Quaternion.identity);
 
         GameObject tower = new GameObject();
         TowerAggro towerAggro = tower.AddComponent<TowerAggro>();
 
-        int distanceSortValue = towerAggro.CompareDistances(enemyAttackable, enemyAttackable2);
+        int distanceSortValue = towerAggro.CompareDistances(enemy1, enemy2);
 
         Assert.That(distanceSortValue, Is.EqualTo(0));
     }
@@ -48,18 +54,21 @@ public class TestTowerAggro
     [Test]
     public void Test_CompareDistance_PosOne()
     {
-        GameObject enemy = new GameObject();
-        Attackable enemyAttackable = enemy.AddComponent<Attackable>();
-        GameObject enemy2 = new GameObject();
-        Attackable enemyAttackable2 = enemy2.AddComponent<Attackable>();
+        MinionPool.Reset();
 
-        enemy.transform.SetPositionAndRotation(new Vector3(8, 0, 8), Quaternion.identity);
+        Minion enemy1 = MinionPool.Instance.GetMinion();
+        Minion enemy2 = MinionPool.Instance.GetMinion();
+
+        enemy1.gameObject.SetActive(true);
+        enemy2.gameObject.SetActive(true);
+
+        enemy1.transform.SetPositionAndRotation(new Vector3(8, 0, 8), Quaternion.identity);
         enemy2.transform.SetPositionAndRotation(new Vector3(4, 0, 4), Quaternion.identity);
 
         GameObject tower = new GameObject();
         TowerAggro towerAggro = tower.AddComponent<TowerAggro>();
 
-        int distanceSortValue = towerAggro.CompareDistances(enemyAttackable, enemyAttackable2);
+        int distanceSortValue = towerAggro.CompareDistances(enemy1, enemy2);
 
         Assert.That(distanceSortValue, Is.EqualTo(1));
     }
@@ -67,18 +76,21 @@ public class TestTowerAggro
     [Test]
     public void Test_CompareDistance_PosOne2()
     {
-        GameObject enemy = new GameObject();
-        Attackable enemyAttackable = enemy.AddComponent<Attackable>();
-        GameObject enemy2 = new GameObject();
-        Attackable enemyAttackable2 = enemy2.AddComponent<Attackable>();
+        MinionPool.Reset();
 
-        enemy.transform.SetPositionAndRotation(new Vector3(8, 0, -8), Quaternion.identity);
+        Minion enemy1 = MinionPool.Instance.GetMinion();
+        Minion enemy2 = MinionPool.Instance.GetMinion();
+
+        enemy1.gameObject.SetActive(true);
+        enemy2.gameObject.SetActive(true);
+
+        enemy1.transform.SetPositionAndRotation(new Vector3(8, 0, -8), Quaternion.identity);
         enemy2.transform.SetPositionAndRotation(new Vector3(-4, 0, 4), Quaternion.identity);
 
         GameObject tower = new GameObject();
         TowerAggro towerAggro = tower.AddComponent<TowerAggro>();
 
-        int distanceSortValue = towerAggro.CompareDistances(enemyAttackable, enemyAttackable2);
+        int distanceSortValue = towerAggro.CompareDistances(enemy1, enemy2);
 
         Assert.That(distanceSortValue, Is.EqualTo(1));
     }
@@ -86,19 +98,17 @@ public class TestTowerAggro
     [Test]
     public void Test_AddTarget()
     {
-        GameObject enemy = new GameObject();
-        Attackable enemyAttackable = enemy.AddComponent<Attackable>();
-        SphereCollider enemyCollider = enemy.AddComponent<SphereCollider>();
+        MinionPool.Reset();
+
+        Minion enemy = MinionPool.Instance.GetMinion();
+        enemy.gameObject.SetActive(true);
+        SphereCollider enemyCollider = enemy.AttackableInterface.GetComponent<SphereCollider>();
             
         enemy.transform.SetPositionAndRotation(new Vector3(8, 0, -8), Quaternion.identity);
-            
-        enemyCollider.radius = 0.1f;
 
         GameObject tower = new GameObject();
         TowerAggro towerAggro = tower.AddComponent<TowerAggro>();
-        SphereCollider towerCollider = tower.AddComponent<SphereCollider>();
-
-        towerCollider.radius = 4;
+        
         towerAggro.Start();
         towerAggro.OnTriggerEnter(enemyCollider);
 
@@ -108,9 +118,11 @@ public class TestTowerAggro
     [Test]
     public void Test_LoseTarget()
     {
-        GameObject enemy = new GameObject();
-        Attackable enemyAttackable = enemy.AddComponent<Attackable>();
-        SphereCollider enemyCollider = enemy.AddComponent<SphereCollider>();
+        MinionPool.Reset();
+
+        Minion enemy = MinionPool.Instance.GetMinion();
+        enemy.gameObject.SetActive(true);
+        SphereCollider enemyCollider = enemy.AttackableInterface.GetComponent<SphereCollider>();
 
         enemy.transform.SetPositionAndRotation(new Vector3(8, 0, -8), Quaternion.identity);
 
@@ -132,47 +144,50 @@ public class TestTowerAggro
     [Test]
     public void Test_GetTarget()
     {
-        GameObject enemy = new GameObject();
-        Attackable enemyAttackable = enemy.AddComponent<Attackable>();
-        SphereCollider enemyCollider = enemy.AddComponent<SphereCollider>();
+        MinionPool.Reset();
+
+        Minion enemy = MinionPool.Instance.GetMinion();
+        enemy.gameObject.SetActive(true);
+        SphereCollider enemyCollider = enemy.AttackableInterface.GetComponent<SphereCollider>();
 
         enemy.transform.SetPositionAndRotation(new Vector3(8, 0, -8), Quaternion.identity);
         enemyCollider.radius = 0.1f;
 
         GameObject tower = new GameObject();
         TowerAggro towerAggro = tower.AddComponent<TowerAggro>();
+        towerAggro.Start();
         SphereCollider towerCollider = tower.AddComponent<SphereCollider>();
 
         towerCollider.radius = 4;
         towerAggro.Start();
         towerAggro.OnTriggerEnter(enemyCollider);
 
-        enemy = new GameObject();
-        enemyAttackable = enemy.AddComponent<Attackable>();
-        enemyCollider = enemy.AddComponent<SphereCollider>();
+        enemy = MinionPool.Instance.GetMinion();
+        enemy.gameObject.SetActive(true);
+        enemyCollider = enemy.AttackableInterface.GetComponent<SphereCollider>();
 
         enemy.transform.SetPositionAndRotation(new Vector3(4, 0, 4), Quaternion.identity);
         enemyCollider.radius = 0.1f;
         towerAggro.OnTriggerEnter(enemyCollider);
 
-        enemy = new GameObject();
-        enemyAttackable = enemy.AddComponent<Attackable>();
-        enemyCollider = enemy.AddComponent<SphereCollider>();
+        enemy = MinionPool.Instance.GetMinion();
+        enemy.gameObject.SetActive(true);
+        enemyCollider = enemy.AttackableInterface.GetComponent<SphereCollider>();
 
         enemy.transform.SetPositionAndRotation(new Vector3(2, 0, 4), Quaternion.identity);
         enemyCollider.radius = 0.1f;
         towerAggro.OnTriggerEnter(enemyCollider);
 
-        enemy = new GameObject();
-        enemyAttackable = enemy.AddComponent<Attackable>();
-        enemyCollider = enemy.AddComponent<SphereCollider>();
+        enemy = MinionPool.Instance.GetMinion();
+        enemy.gameObject.SetActive(true);
+        enemyCollider = enemy.AttackableInterface.GetComponent<SphereCollider>();
 
         enemy.transform.SetPositionAndRotation(new Vector3(1, 0, 1), Quaternion.identity);
         enemyCollider.radius = 0.1f;
         towerAggro.OnTriggerEnter(enemyCollider);
 
-        Attackable target = towerAggro.GetTarget();
+        Minion target = towerAggro.GetTarget();
 
-        Assert.That(target.GetInstanceID(), Is.EqualTo(enemyAttackable.GetInstanceID()));
+        Assert.That(target.GetInstanceID(), Is.EqualTo(enemy.GetInstanceID()));
     }
 }

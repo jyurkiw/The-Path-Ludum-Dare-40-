@@ -26,6 +26,7 @@ public class ProjectilePool : MonoBehaviour
             while (Projectiles.Count < InitialPoolSize)
             {
                 Projectile projectile = Instantiate<Projectile>(initialProjectile);
+                projectile.InitProjectile(this);
                 Projectiles.Push(projectile);
             }
 
