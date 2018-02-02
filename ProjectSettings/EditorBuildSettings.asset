@@ -15,8 +15,14 @@ EditorBuildSettings:
     path: Assets/Game.unity
     guid: 262faf69b017dd14b823f71370c5c0c5
   - enabled: 1
-    path: Assets/PlaymodeTests/Test_MinionMovement_Straight.unity
+    path: Assets/PlaymodeTests/Minions/Test_MinionMovement_Straight.unity
     guid: 573e2ad8499df1e4b88f0dfbfc180378
   - enabled: 1
-    path: Assets/PlaymodeTests/Test_MinionMovement_Turn.unity
+    path: Assets/PlaymodeTests/Minions/Test_MinionMovement_Turn.unity
     guid: dad498309ca784746a0272252c6c2a41
+  - enabled: 1
+    path: Assets/PlaymodeTests/Towers/Test_TowerAttacks_Aggro.unity
+    guid: 3b6fc28bdbb9bae4ea65ec07c2d73fb9
+  - enabled: 1
+    path: Assets/PlaymodeTests/Attacking/Test_Attacks.unity
+    guid: 38f76b1968975e34d95cb737a1239812

@@ -36,7 +36,7 @@ public class TestMinionMovement
 	}
 
     [UnityTest]
-    public IEnumerator TestMinionMovement_Turn()
+    public IEnumerator TestMinionMovement_Turn_Position()
     {
         SceneManager.LoadScene("Test_MinionMovement_Turn");
 
@@ -66,7 +66,7 @@ public class TestMinionMovement
     }
 
     [UnityTest]
-    public IEnumerator TestMinionMovement_FollowTurn()
+    public IEnumerator TestMinionMovement_Turn_Rotation()
     {
         SceneManager.LoadScene("Test_MinionMovement_Turn");
 
