@@ -43,11 +43,19 @@ public class Attackable : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Add a tower to the Tower tracking for this Attackable.
+    /// </summary>
+    /// <param name="tower"></param>
     public void TagTower(TowerAggro tower)
     {
         aggroTowers.Add(tower.ID, tower);
     }
 
+    /// <summary>
+    /// Remove this Attackable from the passed Tower.
+    /// </summary>
+    /// <param name="tower"></param>
     public void UnTagTower(TowerAggro tower)
     {
         aggroTowers.Remove(tower.ID);
