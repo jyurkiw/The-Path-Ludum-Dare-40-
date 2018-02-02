@@ -23,3 +23,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/PlaymodeTests/Towers/Test_TowerAttacks_Aggro.unity
     guid: 3b6fc28bdbb9bae4ea65ec07c2d73fb9
+  - enabled: 1
+    path: Assets/PlaymodeTests/Attacking/Test_Attacks.unity
+    guid: 38f76b1968975e34d95cb737a1239812

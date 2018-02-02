@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4447185286380584}
   - component: {fileID: 95771673789592332}
   - component: {fileID: 135805629657665022}
+  - component: {fileID: 114171476777367084}
+  - component: {fileID: 54869383789002746}
   m_Layer: 0
   m_Name: EnemyContainer
   m_TagString: Untagged
@@ -287,6 +289,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1392195779817084}
   m_Mesh: {fileID: 4300002, guid: ac23a8957cdb2ad4bb7f4c5cb8e2f71a, type: 3}
+--- !u!54 &54869383789002746
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1352411884379114}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!95 &95771673789592332
 Animator:
   serializedVersion: 3
@@ -304,6 +321,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114171476777367084
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1352411884379114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8c8fb269561d2b42b40b31f1fe611b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 10
 --- !u!114 &114950157532030026
 MonoBehaviour:
   m_ObjectHideFlags: 1

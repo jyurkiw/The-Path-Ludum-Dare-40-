@@ -6,13 +6,17 @@ using UnityEngine;
 public class TowerAggro : MonoBehaviour
 {
     public List<Attackable> Targets { get; private set; }
+    public int ID { get; private set; }
 
     private bool Sorted = false;
+
+    private static int id = 0;
 
 	// Use this for initialization
 	public void Start ()
     {
         Targets = new List<Attackable>();
+        ID = id++;
 	}
 	
 	// Update is called once per frame
@@ -31,6 +35,7 @@ public class TowerAggro : MonoBehaviour
         if (target != null)
         {
             Targets.Add(target);
+            target.TagTower(this);
             Sorted = false;
         }
     }
@@ -44,8 +49,8 @@ public class TowerAggro : MonoBehaviour
         Attackable target = other.GetComponent<Attackable>();
         if (target != null)
         {
+            target.UnTagTower(this);
             Targets.Remove(target);
-            Sorted = false;
         }
     }
     
@@ -57,10 +62,10 @@ public class TowerAggro : MonoBehaviour
     /// <returns></returns>
     public Attackable GetTarget(IComparer<Attackable> sorter = null)
     {
+        if (Targets.Count == 1) return Targets[0];
+
         if (Targets.Count > 0)
         {
-            if (Targets.Count == 1) return Targets[0];
-
             if (!Sorted && sorter != null)
             {
                 Targets.Sort(sorter);
