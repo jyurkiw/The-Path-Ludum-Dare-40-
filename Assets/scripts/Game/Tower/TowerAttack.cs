@@ -29,10 +29,10 @@ public class TowerAttack : MonoBehaviour
                 currentInterval = 0;
 
                 // Shoot minion in the face
-                Attackable target = aggro.GetTarget();
+                Minion target = aggro.GetTarget();
 
                 Projectile projectile = ProjectilePool.Instance.GetProjectile();
-                projectile.Fire(projectileSpawnPosition, target.transform, Damage);
+                projectile.Fire(projectileSpawnPosition, target.AttackableInterface.transform, Damage);
             }
         }
 	}

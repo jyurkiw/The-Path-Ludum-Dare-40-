@@ -31,20 +31,20 @@ public class TestTowerAttacks
 
         Node startNode = testBranch.InNode;
 
-        MovementController minion = GameObject.Instantiate<MovementController>(Resources.Load<MovementController>("prefabs/enemy/enemy"));
+        Minion minion = MinionPool.Instance.GetMinion();
         minion.Activate(startNode);
 
         float secondMinionSpawnDelay = 2.0f;
         yield return new WaitForSeconds(secondMinionSpawnDelay);
 
-        MovementController minion2 = GameObject.Instantiate<MovementController>(Resources.Load<MovementController>("prefabs/enemy/enemy"));
+        Minion minion2 = MinionPool.Instance.GetMinion();
         minion2.Activate(startNode);
 
-        float travelDuration = minion.MoveInterval * Node.GetDistanceToOrigin(startNode) + 1f - secondMinionSpawnDelay;
+        float travelDuration = minion.MovementInterface.MoveInterval * Node.GetDistanceToOrigin(startNode) + 1f - secondMinionSpawnDelay;
 
         yield return new WaitForSeconds(travelDuration);
         Assert.That(towerAgg.Targets.Count, Is.EqualTo(0));
-        Assert.That(minion == null);
+        Assert.That(!minion.Alive);
     }
 
     [UnityTest]
@@ -54,8 +54,13 @@ public class TestTowerAttacks
         yield return null;
 
         GameObject tower = GameObject.Find("test_tower");
-        TowerAggro towerAgg= tower.GetComponentInChildren<TowerAggro>();
-        Attackable enemy = GameObject.Find("enemy").GetComponentInChildren<Attackable>();
+        TowerAggro towerAgg = tower.GetComponentInChildren<TowerAggro>();
+        Minion enemy = MinionPool.Instance.GetMinion();
+
+        Vector3 enemyPosition = new Vector3(2, 0, 0);
+
+        enemy.transform.position = enemyPosition;
+        enemy.gameObject.SetActive(true);
 
         towerAgg.Targets.Add(enemy);
 
@@ -63,10 +68,13 @@ public class TestTowerAttacks
 
         Projectile[] p = GameObject.FindObjectsOfType<Projectile>();
         Assert.That(p.Length, Is.EqualTo(1));
-        Assert.That(enemy.HP, Is.EqualTo(10));
+        Assert.That(enemy.AttackableInterface.HP, Is.EqualTo(10));
 
         yield return new WaitForSeconds(3);
 
-        Assert.That(enemy.HP, Is.EqualTo(9));
+        Assert.That(enemy.AttackableInterface.HP, Is.EqualTo(9));
+        Assert.That(enemy.transform.position, Is.EqualTo(enemyPosition));
+
+        enemy.Deactivate();
     }
 }

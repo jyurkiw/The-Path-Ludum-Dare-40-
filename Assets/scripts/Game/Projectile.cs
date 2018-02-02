@@ -8,23 +8,34 @@ public class Projectile : MonoBehaviour
     private Transform Target;
     private int damage;
 
-    public bool Moving = false;
-
     private ProjectilePool owningPool = null;
-	
-	// Update is called once per frame
-	void Update ()
+
+    /// <summary>
+    /// Start projectiles in an inactive state.
+    /// TODO: Remove this by deactivating the prefab when you fix the ProjectilePool.
+    /// </summary>
+    public void Start()
     {
-		if (Moving && Target != null)
-        {
+        gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Check our position.
+    /// When we reach our destination, deactivate.
+    /// </summary>
+    public void Update ()
+    {
+		if (transform.position != Target.position)
             transform.position = Vector3.MoveTowards(transform.position, Target.position, velocity);
-        }
-        else if (Moving && Target == null)
-        {
-            gameObject.SetActive(false);
-        }
+        else gameObject.SetActive(false);
 	}
 
+    /// <summary>
+    /// Set this projectile's position, target, damage, and activate it.
+    /// </summary>
+    /// <param name="startingPosition"></param>
+    /// <param name="target"></param>
+    /// <param name="damage"></param>
     public void Fire(Vector3 startingPosition, Transform target, int damage)
     {
         Target = target;
@@ -36,19 +47,26 @@ public class Projectile : MonoBehaviour
 
     public void OnEnable()
     {
-        Moving = true;
+        
     }
 
+    /// <summary>
+    /// When disabled, make sure we clear any invocations and put it in the Projectile Pool's inactive pool.
+    /// </summary>
     public void OnDisable()
     {
         CancelInvoke();
-        Moving = false;
         owningPool.SetInactive(this);
     }
 
-    public void OnCollisionEnter(Collision collision)
+    /// <summary>
+    /// When the projectile's trigger box meets something it can hit, check to see if it's a minion.
+    /// If it's a minion, deal damage and deactivate.
+    /// </summary>
+    /// <param name="other"></param>
+    public void OnTriggerEnter(Collider other)
     {
-        Attackable target = collision.gameObject.GetComponentInChildren<Attackable>();
+        Minion target = other.gameObject.GetComponentInParent<Minion>();
 
         if (target != null)
         {
@@ -57,6 +75,12 @@ public class Projectile : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Initialize the projectile.
+    /// Set the owning projectile pool.
+    /// Can only be called once.
+    /// </summary>
+    /// <param name="owner"></param>
     public void InitProjectile(ProjectilePool owner)
     {
         if (owningPool == null)

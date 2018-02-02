@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TowerAggro : MonoBehaviour
 {
-    public List<Attackable> Targets { get; private set; }
+    public List<Minion> Targets { get; private set; }
     public int ID { get; private set; }
 
     private bool Sorted = false;
@@ -15,7 +15,7 @@ public class TowerAggro : MonoBehaviour
 	// Use this for initialization
 	public void Start ()
     {
-        Targets = new List<Attackable>();
+        Targets = new List<Minion>();
         ID = id++;
 	}
 	
@@ -31,11 +31,11 @@ public class TowerAggro : MonoBehaviour
     /// <param name="other"></param>
     public void OnTriggerEnter(Collider other)
     {
-        Attackable target = other.GetComponent<Attackable>();
+        Minion target = other.GetComponentInParent<Minion>();
         if (target != null)
         {
             Targets.Add(target);
-            target.TagTower(this);
+            target.AttackableInterface.TagTower(this);
             Sorted = false;
         }
     }
@@ -46,10 +46,10 @@ public class TowerAggro : MonoBehaviour
     /// <param name="other"></param>
     public void OnTriggerExit(Collider other)
     {
-        Attackable target = other.GetComponent<Attackable>();
+        Minion target = other.GetComponentInParent<Minion>();
         if (target != null)
         {
-            target.UnTagTower(this);
+            target.AttackableInterface.UnTagTower(this);
             Targets.Remove(target);
         }
     }
@@ -60,7 +60,7 @@ public class TowerAggro : MonoBehaviour
     /// </summary>
     /// <param name="sorter"></param>
     /// <returns></returns>
-    public Attackable GetTarget(IComparer<Attackable> sorter = null)
+    public Minion GetTarget(IComparer<Minion> sorter = null)
     {
         if (Targets.Count == 1) return Targets[0];
 
@@ -91,7 +91,7 @@ public class TowerAggro : MonoBehaviour
     /// <param name="at1"></param>
     /// <param name="at2"></param>
     /// <returns></returns>
-    public int CompareDistances(Attackable at1, Attackable at2)
+    public int CompareDistances(Minion at1, Minion at2)
     {
         float compValue = Mathf.Clamp(Vector3.Distance(transform.position, at1.transform.position) - Vector3.Distance(transform.position, at2.transform.position), -1, 1);
         return compValue == 0 ? 0 : compValue > 0 ? 1 : -1;

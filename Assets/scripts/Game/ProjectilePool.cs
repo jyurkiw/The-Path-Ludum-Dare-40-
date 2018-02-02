@@ -9,6 +9,9 @@ public class ProjectilePool : MonoBehaviour
 
     public static ProjectilePool Instance { get; private set; }
 
+    /// <summary>
+    /// Only instance this Projectile Pool if there is not already a Projectile Pool instance.
+    /// </summary>
     public void Start()
     {
         if (Instance == null)
@@ -20,22 +23,31 @@ public class ProjectilePool : MonoBehaviour
             initialProjectile.InitProjectile(this);
             Projectiles.Push(initialProjectile);
 
-            initialProjectile.gameObject.SetActive(false);
-
             while (Projectiles.Count < InitialPoolSize)
             {
                 Projectile projectile = Instantiate<Projectile>(initialProjectile);
                 projectile.InitProjectile(this);
                 Projectiles.Push(projectile);
             }
+
         }
     }
 
+    /// <summary>
+    /// Push the passed projectile into the pool.
+    /// </summary>
+    /// <param name="projectile"></param>
     public void SetInactive(Projectile projectile)
     {
+        projectile.gameObject.SetActive(false);
         Projectiles.Push(projectile);
     }
 
+    /// <summary>
+    /// Pull a projectile from the pool.
+    /// Create a new projectile if there are no projectiles left.
+    /// </summary>
+    /// <returns></returns>
     public Projectile GetProjectile()
     {
         if (Projectiles.Count == 0)

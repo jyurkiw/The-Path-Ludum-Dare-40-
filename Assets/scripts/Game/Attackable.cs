@@ -9,47 +9,46 @@ public class Attackable : MonoBehaviour
 {
     public int HP;      // How much damage they can take.
 
-    public bool Alive { get { return HP > 0; } }
-
-    private Dictionary<int, TowerAggro> aggroTowers;
+    public Dictionary<int, TowerAggro> AggroTowers = new Dictionary<int, TowerAggro>();
 
 	// Use this for initialization
-	public void Start () {
-        aggroTowers = new Dictionary<int, TowerAggro>();
+	public void Start ()
+    {
+
 	}
 	
-	/// <summary>
-    /// Check for death state and handle it if necessary.
-    /// </summary>
-	public void Update () {
-		if (HP <= 0)
-        {
-            Destroy(this.transform.parent.gameObject);
-        }
+	public void Update ()
+    {
+
 	}
 
     /// <summary>
-    /// Deal damage to this minion and destroy if HP <= 0.
+    /// Deal damage to this minion.
     /// </summary>
     /// <param name="damage"></param>
-    public void DealDamage(int damage)
+    /// <returns>True if the minion was killed by the damage.</returns>
+    public bool DealDamage(int damage)
     {
         HP -= damage;
 
-        if (HP <= 0)
-        {
-            foreach (TowerAggro tower in aggroTowers.Values) tower.Targets.Remove(this);
-            Destroy(this.transform.parent.gameObject);
-        }
+        return HP <= 0;
     }
 
+    /// <summary>
+    /// Add a tower to the Tower tracking for this Attackable.
+    /// </summary>
+    /// <param name="tower"></param>
     public void TagTower(TowerAggro tower)
     {
-        aggroTowers.Add(tower.ID, tower);
+        AggroTowers.Add(tower.ID, tower);
     }
 
+    /// <summary>
+    /// Remove this Attackable from the passed Tower.
+    /// </summary>
+    /// <param name="tower"></param>
     public void UnTagTower(TowerAggro tower)
     {
-        aggroTowers.Remove(tower.ID);
+        AggroTowers.Remove(tower.ID);
     }
 }
