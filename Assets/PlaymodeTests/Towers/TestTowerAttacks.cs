@@ -74,5 +74,7 @@ public class TestTowerAttacks
 
         Assert.That(enemy.AttackableInterface.HP, Is.EqualTo(9));
         Assert.That(enemy.transform.position, Is.EqualTo(enemyPosition));
+
+        enemy.Deactivate();
     }
 }

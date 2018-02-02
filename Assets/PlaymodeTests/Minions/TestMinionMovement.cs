@@ -13,8 +13,9 @@ public class TestMinionMovement
 	public IEnumerator TestMinionMovement_Straight()
     {
         SceneManager.LoadScene("Test_MinionMovement_Straight");
+        //MinionPool.Reset();
 
-		yield return null;
+        yield return null;
         Node origin = new Node(0, 0);
         Path path = new Path(origin, NODE_DIRECTION.RIGHT); //1
 
@@ -40,6 +41,7 @@ public class TestMinionMovement
     public IEnumerator TestMinionMovement_Turn_PositionAndRotation()
     {
         SceneManager.LoadScene("Test_MinionMovement_Turn");
+        //MinionPool.Reset();
 
         yield return null;
         Node origin = new Node(0, 0);

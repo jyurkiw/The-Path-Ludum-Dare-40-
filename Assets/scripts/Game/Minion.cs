@@ -14,7 +14,12 @@ public class Minion : MonoBehaviour
     private MinionPool owningPool;
 
     public bool Alive { get { return gameObject.activeSelf; } }
-
+    
+    /// <summary>
+    /// Initialize the Attackable and Movement interfaces.
+    /// Also set the MinionPool owner.
+    /// </summary>
+    /// <param name="owner"></param>
     public void InitInterfaces(MinionPool owner)
     {
         AttackableInterface = GetComponentInChildren<Attackable>();
@@ -22,12 +27,19 @@ public class Minion : MonoBehaviour
         owningPool = owner;
     }
 
+    /// <summary>
+    /// Activate this minion at the passed node.
+    /// </summary>
+    /// <param name="startNode"></param>
     public void Activate(Node startNode)
     {
         MovementInterface.Activate(startNode);
         gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Deactivate this minion (they stay where they currently are.
+    /// </summary>
     public void Deactivate()
     {
         gameObject.SetActive(false);
@@ -38,6 +50,10 @@ public class Minion : MonoBehaviour
             tower.Targets.Remove(this);
     }
 
+    /// <summary>
+    /// Deal damage to this minion and deactivate them if they die.
+    /// </summary>
+    /// <param name="damage"></param>
     public void DealDamage(int damage)
     {
         if (AttackableInterface.DealDamage(damage))

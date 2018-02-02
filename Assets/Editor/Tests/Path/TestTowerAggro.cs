@@ -10,6 +10,7 @@ public class TestTowerAggro
     [Test]
     public void Test_CompareDistance_NegOne()
     {
+        MinionPool.KeepOnLoad = false;
         MinionPool.Reset();
 
         Minion enemy1 = MinionPool.Instance.GetMinion();
@@ -32,6 +33,7 @@ public class TestTowerAggro
     [Test]
     public void Test_CompareDistance_Zero()
     {
+        MinionPool.KeepOnLoad = false;
         MinionPool.Reset();
 
         Minion enemy1 = MinionPool.Instance.GetMinion();
@@ -54,6 +56,7 @@ public class TestTowerAggro
     [Test]
     public void Test_CompareDistance_PosOne()
     {
+        MinionPool.KeepOnLoad = false;
         MinionPool.Reset();
 
         Minion enemy1 = MinionPool.Instance.GetMinion();
@@ -76,6 +79,7 @@ public class TestTowerAggro
     [Test]
     public void Test_CompareDistance_PosOne2()
     {
+        MinionPool.KeepOnLoad = false;
         MinionPool.Reset();
 
         Minion enemy1 = MinionPool.Instance.GetMinion();
@@ -98,6 +102,7 @@ public class TestTowerAggro
     [Test]
     public void Test_AddTarget()
     {
+        MinionPool.KeepOnLoad = false;
         MinionPool.Reset();
 
         Minion enemy = MinionPool.Instance.GetMinion();
@@ -118,6 +123,7 @@ public class TestTowerAggro
     [Test]
     public void Test_LoseTarget()
     {
+        MinionPool.KeepOnLoad = false;
         MinionPool.Reset();
 
         Minion enemy = MinionPool.Instance.GetMinion();
@@ -144,6 +150,7 @@ public class TestTowerAggro
     [Test]
     public void Test_GetTarget()
     {
+        MinionPool.KeepOnLoad = false;
         MinionPool.Reset();
 
         Minion enemy = MinionPool.Instance.GetMinion();
