@@ -78,7 +78,10 @@ public class MinionPool
         if (Minions.Count == 1)
             Minions.Push(NewMinion(Minions.Peek()));
 
-        return Minions.Pop();
+        Minion minion = Minions.Pop();
+        minion.AttackableInterface.HP = minion.AttackableInterface.MaxHp;
+
+        return minion;
     }
 
     /// <summary>
