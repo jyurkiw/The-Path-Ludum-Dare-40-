@@ -30,6 +30,7 @@ public class MinionPool
     }
 
     public Stack<Minion> Minions;
+    private int IDCounter = 0;
 
     /// <summary>
     /// Create a new minion pool.
@@ -43,18 +44,19 @@ public class MinionPool
         prototype.InitInterfaces(this);
         if (KeepOnLoad) GameObject.DontDestroyOnLoad(prototype);
         Minions.Push(prototype);
-
-        int id = 0;
+        
         while (Minions.Count < initialPoolSize)
-        {
-            id++;
-            Minion minion = GameObject.Instantiate<Minion>(prototype);
-            if (KeepOnLoad) GameObject.DontDestroyOnLoad(minion);
-            minion.ID = id;
-            
-            minion.InitInterfaces(this);
-            Minions.Push(minion);
-        }
+            Minions.Push(NewMinion(prototype));
+    }
+
+    private Minion NewMinion(Minion prototype)
+    {
+        Minion minion = GameObject.Instantiate<Minion>(prototype);
+        if (KeepOnLoad) GameObject.DontDestroyOnLoad(minion);
+        minion.ID = ++IDCounter;
+
+        minion.InitInterfaces(this);
+        return minion;
     }
 
     /// <summary>
@@ -68,10 +70,14 @@ public class MinionPool
 
     /// <summary>
     /// Get a deactivated minion.
+    /// If we're down to our last minion, clone them and return that minion instead.
     /// </summary>
     /// <returns></returns>
     public Minion GetMinion()
     {
+        if (Minions.Count == 1)
+            Minions.Push(NewMinion(Minions.Peek()));
+
         return Minions.Pop();
     }
 
