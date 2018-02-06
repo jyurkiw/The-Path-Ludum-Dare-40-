@@ -32,7 +32,7 @@ public class TowerAttack : MonoBehaviour
                 Minion target = aggro.GetTarget();
 
                 Projectile projectile = ProjectilePool.Instance.GetProjectile();
-                projectile.Fire(projectileSpawnPosition, target.AttackableInterface.transform, Damage);
+                projectile.Fire(projectileSpawnPosition, target, Damage);
             }
         }
 	}

@@ -5,10 +5,13 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public float velocity = 3.0f / 60.0f;
-    private Transform Target;
+    private Minion Target;
+    private Vector3 targetPosition;
     private int damage;
 
     private ProjectilePool owningPool = null;
+
+    private int targetId;
 
     /// <summary>
     /// Start projectiles in an inactive state.
@@ -25,8 +28,13 @@ public class Projectile : MonoBehaviour
     /// </summary>
     public void Update ()
     {
-		if (transform.position != Target.position)
-            transform.position = Vector3.MoveTowards(transform.position, Target.position, velocity);
+        if (targetPosition != Target.AttackableInterface.transform.position && Target.ID == targetId)
+        {
+            targetPosition = Target.AttackableInterface.transform.position;
+        }
+
+        if (transform.position != targetPosition)
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, velocity);
         else gameObject.SetActive(false);
 	}
 
@@ -36,11 +44,12 @@ public class Projectile : MonoBehaviour
     /// <param name="startingPosition"></param>
     /// <param name="target"></param>
     /// <param name="damage"></param>
-    public void Fire(Vector3 startingPosition, Transform target, int damage)
+    public void Fire(Vector3 startingPosition, Minion target, int damage)
     {
         Target = target;
         transform.position = startingPosition;
         this.damage = damage;
+        targetId = target.ID;
 
         gameObject.SetActive(true);
     }

@@ -746,7 +746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NextWaveSize: 5
-  NextWaveDelaySeconds: 30
+  NextWaveDelaySeconds: 10
   NextWave: 0
   GameTime: 0
   DebugCountdown: 1

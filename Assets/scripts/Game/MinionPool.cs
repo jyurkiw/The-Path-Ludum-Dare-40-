@@ -79,6 +79,7 @@ public class MinionPool
             Minions.Push(NewMinion(Minions.Peek()));
 
         Minion minion = Minions.Pop();
+        minion.ID = ++IDCounter;
         minion.AttackableInterface.HP = minion.AttackableInterface.MaxHp;
 
         return minion;
