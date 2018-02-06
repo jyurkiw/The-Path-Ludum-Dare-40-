@@ -8,6 +8,7 @@ using UnityEngine;
 public class Attackable : MonoBehaviour
 {
     public int HP;      // How much damage they can take.
+    public int MaxHp;   // Their maximum HP
 
     public Dictionary<int, TowerAggro> AggroTowers = new Dictionary<int, TowerAggro>();
 
