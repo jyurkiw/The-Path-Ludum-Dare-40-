@@ -48,6 +48,7 @@ public class Minion : MonoBehaviour
         // Remove this minion from all aggro towers
         foreach (TowerAggro tower in AttackableInterface.AggroTowers.Values)
             tower.Targets.Remove(this);
+        AttackableInterface.AggroTowers.Clear();
     }
 
     /// <summary>
