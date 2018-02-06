@@ -11,6 +11,8 @@ public class Projectile : MonoBehaviour
 
     private ProjectilePool owningPool = null;
 
+    private int targetId;
+
     /// <summary>
     /// Start projectiles in an inactive state.
     /// TODO: Remove this by deactivating the prefab when you fix the ProjectilePool.
@@ -26,7 +28,7 @@ public class Projectile : MonoBehaviour
     /// </summary>
     public void Update ()
     {
-        if (targetPosition != Target.AttackableInterface.transform.position)
+        if (targetPosition != Target.AttackableInterface.transform.position && Target.ID == targetId)
         {
             targetPosition = Target.AttackableInterface.transform.position;
         }
@@ -47,7 +49,8 @@ public class Projectile : MonoBehaviour
         Target = target;
         transform.position = startingPosition;
         this.damage = damage;
-        
+        targetId = target.ID;
+
         gameObject.SetActive(true);
     }
 
