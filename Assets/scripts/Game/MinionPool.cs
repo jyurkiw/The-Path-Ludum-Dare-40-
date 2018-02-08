@@ -49,6 +49,11 @@ public class MinionPool
             Minions.Push(NewMinion(prototype));
     }
 
+    /// <summary>
+    /// Create a new minion with an incremented ID.
+    /// </summary>
+    /// <param name="prototype"></param>
+    /// <returns></returns>
     private Minion NewMinion(Minion prototype)
     {
         Minion minion = GameObject.Instantiate<Minion>(prototype);
